@@ -1,0 +1,22 @@
+[project]
+name = "boutique"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "kerem212012", email = "rockstarfoxykerem@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "django>=5.2,<6.0",
+    "environs>=15.0.1",
+    "polib>=1.2.0",
+    "pillow>=12.3.0",
+]
+
+[project.scripts]
+boutique = "boutique:main"
+
+[build-system]
+requires = ["uv_build>=0.12.0,<0.13.0"]
+build-backend = "uv_build"

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Catalog" %} | Kalkan Nilüfer Butik{% endblock %}
+
+{% block content %}
+<section class="page">
+    <h1>{% trans "Catalog" %}</h1>
+    <p>{% trans "This page will be extended later with filtering, search, and product detail pages." %}</p>
+    <div class="grid">
+        {% for product in products %}
+            <article class="card">
+                <a class="card-image-link" href="{% url 'catalog:product-detail' product.slug %}">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935-763728e1935b?auto=format&fit=crop&w=800&q=80" alt="{{ product.name }}">
+                    {% endif %}
+                </a>
+                <div class="card-body">
+                    <h4><a href="{% url 'catalog:product-detail' product.slug %}">{{ product.name }}</a></h4>
+                    <p>{% if product.description %}{{ product.description }}{% else %}{% trans "Details will be added soon." %}{% endif %}</p>
+                    <p><strong>{{ product.price }} ₺</strong></p>
+                    <a class="button" href="{% url 'catalog:product-detail' product.slug %}">{% trans "View Details" %}</a>
+                </div>
+            </article>
+        {% empty %}
+            <div class="empty-state">{% trans "No products yet." %}</div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

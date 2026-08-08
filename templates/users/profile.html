@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Profile" %} | Kalkan Nilüfer Butik{% endblock %}
+
+{% block content %}
+<section class="page">
+    <h1>{% trans "Profile" %}</h1>
+    <p>{% trans "Update your contact details and review your order history." %}</p>
+    <div class="profile-page-grid">
+        <section class="profile-card">
+            <h2>{% trans "Account Details" %}</h2>
+            <p><strong>{% trans "Username:" %}</strong> {{ user.username }}</p>
+            <p><strong>{% trans "Email:" %}</strong> {{ user.email|default:_('Not provided') }}</p>
+            <form method="post" class="profile-form">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="form-row">
+                    {{ form.phone.label_tag }}
+                    {{ form.phone }}
+                    {{ form.phone.errors }}
+                </div>
+                <div class="form-row">
+                    {{ form.address.label_tag }}
+                    {{ form.address }}
+                    {{ form.address.errors }}
+                </div>
+                <button type="submit">{% trans "Save Profile" %}</button>
+            </form>
+        </section>
+
+        <section class="profile-card">
+            <h2>{% trans "Order History" %}</h2>
+            {% if orders %}
+                <ul class="order-summary-list">
+                    {% for order in orders %}
+                        <li>
+                            <strong>{% trans "Order" %} #{{ order.pk }}</strong>
+                            <p>{% trans "Placed:" %} {{ order.created_at|date:'SHORT_DATE_FORMAT' }}</p>
+                            <p>{% trans "Total:" %} {{ order.total }} ₺</p>
+                            <p>{% trans "Status:" %} {{ order.get_status_display }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="empty-state">
+                    <p>{% trans "You have no orders yet." %}</p>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+</section>
+{% endblock %}

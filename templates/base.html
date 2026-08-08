@@ -1,0 +1,92 @@
+{% load static i18n %}
+<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Kalkan Nilüfer Butik{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}?v=2">
+</head>
+<body>
+    <header>
+        <div class="container topbar">
+            <div class="brand-group">
+                <a href="{% url 'home' %}" class="brand-logo">
+                    <span class="logo-top">KALKAN</span>
+                    <span class="logo-main">NİLÜFER BUTİK</span>
+                </a>
+                <p class="brand-tagline">
+                    {% if LANGUAGE_CODE == 'tr' %}
+                        Doğallığın ve şıklığın buluştuğu adres...
+                    {% else %}
+                        Where natural beauty and style meet...
+                    {% endif %}
+                </p>
+            </div>
+            <nav class="nav-links">
+                <a href="{% url 'catalog:product-list' %}">{% trans "Catalog" %}</a>
+                <a href="{% url 'cart:cart-view' %}">{% trans "Cart" %}</a>
+                <a href="{% url 'orders:order-list' %}">{% trans "Orders" %}</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'users:profile' %}">{% trans "Profile" %}</a>
+                    <form action="{% url 'users:logout' %}" method="post" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-link-button">{% trans "Logout" %}</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'users:login' %}">{% trans "Login" %}</a>
+                    <a href="{% url 'users:register' %}">{% trans "Register" %}</a>
+                {% endif %}
+            </nav>
+            <form action="{% url 'set_language' %}" method="post" class="language-switcher">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ request.path }}">
+                <select name="language">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    <option value="tr" {% if LANGUAGE_CODE == 'tr' %}selected{% endif %}>Türkçe</option>
+                    <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+                </select>
+            </form>
+        </div>
+    </header>
+    <div class="header-banner" role="img" aria-label="Boutique lifestyle banner"></div>
+    <main class="container">
+        {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <div class="container footer-inner">
+            <div class="footer-col footer-about">
+                <h4>{% trans "About" %}</h4>
+                <p>{% trans "Kalkan Nilüfer Butik brings elegant linen and cotton pieces with an artisanal touch." %}</p>
+            </div>
+            <div class="footer-col footer-links">
+                <h4>{% trans "Quick Links" %}</h4>
+                <a href="{% url 'catalog:product-list' %}">{% trans "Catalog" %}</a>
+                <a href="{% url 'cart:cart-view' %}">{% trans "Cart" %}</a>
+                <a href="{% url 'orders:order-list' %}">{% trans "Orders" %}</a>
+                <a href="{% url 'users:profile' %}">{% trans "Profile" %}</a>
+            </div>
+            <div class="footer-col footer-contact">
+                <h4>{% trans "Contact" %}</h4>
+                <p>{{ site_settings.email|default:'hello@butikmail.local' }}</p>
+                <p>{% trans "Kalkan, Antalya" %}</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© {% now "Y" %} Kalkan Nilüfer Butik. {% trans "All rights reserved." %}</p>
+        </div>
+    </footer>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

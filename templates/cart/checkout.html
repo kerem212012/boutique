@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Checkout" %} | Kalkan Nilüfer Butik{% endblock %}
+
+{% block content %}
+<section class="page">
+    <h1>{% trans "Checkout" %}</h1>
+    <p>{% trans "Enter your details and place your order. Payment will be completed later by bank transfer." %}</p>
+
+    <div class="checkout-summary">
+        <section class="checkout-details">
+            <h2>{% trans "Order Summary" %}</h2>
+            <ul>
+                {% for item in items %}
+                    <li>
+                        <span>{{ item.product.name }}</span>
+                        <span>{{ item.quantity }} × {{ item.product.price }} ₺</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <aside class="checkout-sidebar">
+            <div class="checkout-total">
+                <p>{% trans "Total" %}</p>
+                <strong>{{ total }} ₺</strong>
+            </div>
+
+            <div class="bank-transfer-details">
+                <h2>{% trans "Bank Transfer" %}</h2>
+                <p><strong>{% trans "Recipient" %}</strong><span>{{ recipient }}</span></p>
+                <p><strong>IBAN</strong><span class="iban-value">{{ iban|default:_('IBAN will be added soon.') }}</span></p>
+                <p class="payment-note">{% trans "You can make the transfer later. Your order will be confirmed after we verify the payment." %}</p>
+            </div>
+
+            <form method="post" class="checkout-form">
+                {% csrf_token %}
+                <div class="form-row">
+                    <label for="id_email">{% trans "Email" %}</label>
+                    <input type="email" name="email" id="id_email" required autocomplete="email" value="{{ email }}">
+                    {% if email_error %}<p class="form-error">{{ email_error }}</p>{% endif %}
+                </div>
+                <div class="form-row">
+                    <label for="id_phone">{% trans "Phone" %}</label>
+                    <input type="tel" name="phone" id="id_phone" required autocomplete="tel" inputmode="tel" value="{{ phone }}">
+                    {% if phone_error %}<p class="form-error">{{ phone_error }}</p>{% endif %}
+                </div>
+                <div class="form-row">
+                    <label for="id_address">{% trans "Shipping Address" %}</label>
+                    <textarea name="address" id="id_address" rows="4" required placeholder="{% trans '123 Main St, Antalya, Türkiye' %}">{{ address }}</textarea>
+                </div>
+                <button type="submit" class="button button-primary">{% trans "Place Order" %}</button>
+            </form>
+        </aside>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Order Received" %} | Kalkan Nilüfer Butik{% endblock %}
+
+{% block content %}
+<section class="page">
+    <div class="checkout-complete-card">
+        <h1>{% trans "Order Received" %}</h1>
+        <p>{% trans "Your order has been placed. Please complete the bank transfer to confirm it." %}</p>
+        <div class="checkout-complete-details">
+            <p><strong>{% trans "Order total:" %}</strong> {{ total }} ₺</p>
+            <p><strong>{% trans "Order status:" %}</strong> {% trans "Awaiting bank transfer" %}</p>
+            <p><strong>{% trans "Recipient" %}:</strong> {{ recipient }}</p>
+            <p><strong>IBAN:</strong> {{ iban|default:_('IBAN will be added soon.') }}</p>
+        </div>
+        <div class="checkout-complete-actions">
+            <a class="button button-secondary" href="{% url 'home' %}">{% trans "Continue Shopping" %}</a>
+            <a class="button button-primary" href="{% url 'orders:order-list' %}">{% trans "View Orders" %}</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

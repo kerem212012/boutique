@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Orders" %} | Kalkan Nilüfer Butik{% endblock %}
+
+{% block content %}
+<section class="page">
+    <div class="orders-page-heading">
+        <div>
+            <p class="eyebrow">{% trans "Your account" %}</p>
+            <h1>{% trans "Orders" %}</h1>
+        </div>
+        <p class="orders-page-intro">{% trans "Track your purchases and see the details of every order." %}</p>
+    </div>
+    {% if orders %}
+        <div class="orders-list">
+            {% for order in orders %}
+                <article class="order-card">
+                    <div class="order-card-header">
+                        <div>
+                            <p class="order-label">{% trans "Order" %} #{{ order.pk }}</p>
+                            <h2>{% trans "Order details" %}</h2>
+                        </div>
+                        <span class="order-status">{% translate order.get_status_display %}</span>
+                    </div>
+                    <div class="order-meta">
+                        <span>{% trans "Placed" %}: {{ order.created_at|date:'SHORT_DATE_FORMAT' }}</span>
+                        <span>{% trans "Items" %}: {{ order.items.count }}</span>
+                    </div>
+                    <ul class="order-items">
+                        {% for item in order.items.all %}
+                            <li>
+                                {{ item.quantity }} × {{ item.product.name }} — {{ item.price }} ₺
+                                {% if item.selected_size %}<small>{% trans "Size" %}: {{ item.selected_size }}</small>{% endif %}
+                                {% if item.selected_color %}<small>{% trans "Color" %}: {{ item.selected_color }}</small>{% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="order-total">
+                        <span>{% trans "Order Total" %}</span>
+                        <strong>{{ order.total }} ₺</strong>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>{% trans "You have no orders yet." %}</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

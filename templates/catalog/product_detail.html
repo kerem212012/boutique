@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ product.name }} | Kalkan Nilüfer Butik{% endblock %}
+
+{% block content %}
+<section class="product-detail-page">
+    <div class="product-detail-gallery">
+        <div class="product-main-image">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% elif product.gallery.first %}
+                <img src="{{ product.gallery.first.image.url }}" alt="{{ product.gallery.first.alt_text|default:product.name }}">
+            {% else %}
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935-763728e1935b?auto=format&fit=crop&w=1200&q=85" alt="{{ product.name }}">
+            {% endif %}
+        </div>
+        {% if product.gallery.all %}
+            <div class="product-gallery-grid">
+                {% for gallery_image in product.gallery.all %}
+                    <img src="{{ gallery_image.image.url }}" alt="{{ gallery_image.alt_text|default:product.name }}">
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="product-detail-copy">
+        <p class="eyebrow">{{ product.category.name }}</p>
+        <h1>{{ product.name }}</h1>
+        <p class="product-detail-price">{{ product.price }} ₺</p>
+        <p class="product-detail-description">{{ product.description|default:_('Details will be added soon.') }}</p>
+
+        <form method="post" action="{% url 'cart:add-to-cart' product.id %}" class="product-options-form">
+            {% csrf_token %}
+            {% if product.sizes %}
+                <fieldset>
+                    <legend>{% trans "Size" %}</legend>
+                    <div class="option-list">
+                        {% for size in product.sizes %}
+                            <label class="option-choice"><input type="radio" name="size" value="{{ size }}" required><span>{{ size }}</span></label>
+                        {% endfor %}
+                    </div>
+                </fieldset>
+            {% endif %}
+            {% if product.colors %}
+                <fieldset>
+                    <legend>{% trans "Color" %}</legend>
+                    <div class="option-list">
+                        {% for color in product.colors %}
+                            <label class="option-choice"><input type="radio" name="color" value="{{ color }}" required><span>{{ color }}</span></label>
+                        {% endfor %}
+                    </div>
+                </fieldset>
+            {% endif %}
+            <button type="submit" class="button button-primary">{% trans "Add to Cart" %}</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,383 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: boutique 0.1\n"
+"Report-Msgid-Bugs-To: you@example.com\n"
+"POT-Creation-Date: 2026-08-01 00:00+0000\n"
+"PO-Revision-Date: 2026-08-01 00:00+0000\n"
+"Last-Translator: Auto <auto@example.com>\n"
+"Language-Team: Turkish <you@example.com>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Catalog"
+msgstr "Katalog"
+
+msgid "Cart"
+msgstr "Sepet"
+
+msgid "Orders"
+msgstr "Siparişler"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "Logout"
+msgstr "Çıkış Yap"
+
+msgid "Home"
+msgstr "Ana Sayfa"
+
+msgid "New Arrivals"
+msgstr "Yeni Ürünler"
+
+msgid "Completely new, with a weightless feel."
+msgstr "Yepyeni, hafif ve ağırlıksız bir his."
+
+msgid "Try Now"
+msgstr "Şimdi Dene"
+
+msgid "New arrivals collection"
+msgstr "Yeni ürünler koleksiyonu"
+
+msgid "New arrivals fashion collection"
+msgstr "Yeni ürünler moda koleksiyonu"
+
+msgid ""
+"Your favorite style meets soft touches. Create a unique look with this "
+"season's most loved pieces."
+msgstr ""
+"Sevdiğin stil, hafif dokunuşlarla buluşuyor. Bu sezonun en çok beğenilen "
+"parçalarıyla kendine özel bir görünüm yarat."
+
+msgid "Shop Now"
+msgstr "Hemen Keşfet"
+
+msgid "View Cart"
+msgstr "Sepete Git"
+
+msgid "Season favorites"
+msgstr "Sezonun favorileri"
+
+msgid "Your personal style"
+msgstr "Sevdiğin stil"
+
+msgid ""
+"Pieces that feel comfortable and elegant from day to night, with every "
+"detail designed for a strong expression."
+msgstr ""
+"Gündüzden geceye kadar rahat, zarif ve güçlü bir ifade sunan parçalar. Her "
+"detayda özgünlük ve kusursuz bir denge var."
+
+msgid "Featured Pieces"
+msgstr "Öne Çıkan Parçalar"
+
+msgid "View All"
+msgstr "Tümünü Gör"
+
+msgid "Description coming soon."
+msgstr "Açıklama yakında eklenecek."
+
+msgid "About"
+msgstr "Hakkımızda"
+
+msgid ""
+"Kalkan Nilüfer Butik brings elegant linen and cotton pieces with an "
+"artisanal touch."
+msgstr ""
+"Kalkan Nilüfer Butik, zarif keten ve pamuk parçaları el işçiliği dokunuşuyla"
+" sunar."
+
+msgid "Quick Links"
+msgstr "Hızlı Bağlantılar"
+
+msgid "Contact"
+msgstr "İletişim"
+
+msgid "Kalkan, Antalya"
+msgstr "Kalkan, Antalya"
+
+msgid "All rights reserved."
+msgstr "Tüm hakları saklıdır."
+
+msgid "No products added yet."
+msgstr "Henüz ürün eklenmedi."
+
+msgid ""
+"This page will be extended later with filtering, search, and product detail "
+"pages."
+msgstr ""
+"Bu sayfa ileride filtreleme, arama ve ürün detay sayfası ile geliştirilecek."
+
+msgid "Details will be added soon."
+msgstr "Detay yakında eklenecek."
+
+msgid "No products yet."
+msgstr "Henüz ürün yok."
+
+msgid "Add to Cart"
+msgstr "Sepete Ekle"
+
+msgid "View Details"
+msgstr "Detayları Gör"
+
+msgid "Size"
+msgstr "Beden"
+
+msgid "Color"
+msgstr "Renk"
+
+msgid "Please choose a valid size."
+msgstr "Lütfen geçerli bir beden seçin."
+
+msgid "Please choose a valid color."
+msgstr "Lütfen geçerli bir renk seçin."
+
+msgid "Shopping Cart"
+msgstr "Sepetim"
+
+msgid "Product"
+msgstr "Ürün"
+
+msgid "Quantity"
+msgstr "Miktar"
+
+msgid "Price"
+msgstr "Fiyat"
+
+msgid "Total"
+msgstr "Toplam"
+
+msgid "Remove"
+msgstr "Kaldır"
+
+msgid "Checkout"
+msgstr "Ödeme Bilgileri"
+
+msgid ""
+"Cart management will be extended later with real product and quantity "
+"support."
+msgstr ""
+"Sepet yönetimi, gerçek ürün ve miktar desteği ile ileride genişletilecek."
+
+msgid "Your cart is currently empty."
+msgstr "Şu anda sepetiniz boş."
+
+msgid "Your cart is empty."
+msgstr "Sepetiniz boş."
+
+msgid "Added %(product)s to cart."
+msgstr "%(product)s sepete eklendi."
+
+msgid "Item removed from cart."
+msgstr "Ürün sepetten kaldırıldı."
+
+msgid "123 Main St, Antalya, Türkiye"
+msgstr "Atatürk Caddesi 123, Antalya, Türkiye"
+
+msgid "Enter your shipping address before proceeding to payment."
+msgstr "Ödeme işlemine geçmeden önce teslimat adresinizi girin."
+
+msgid "Order Summary"
+msgstr "Sipariş Özeti"
+
+msgid "Shipping Address"
+msgstr "Teslimat Adresi"
+
+msgid "Proceed to Payment"
+msgstr "Ödemeye Geç"
+
+msgid ""
+"Enter your details and place your order. Payment will be completed later by "
+"bank transfer."
+msgstr ""
+"Bilgilerinizi girip siparişinizi oluşturun. Ödeme daha sonra banka "
+"havalesiyle tamamlanacaktır."
+
+msgid "Payment"
+msgstr "Ödeme"
+
+msgid "Enter your payment details to complete the order."
+msgstr "Siparişi tamamlamak için ödeme bilgilerinizi girin."
+
+msgid "Payment Details"
+msgstr "Ödeme Bilgileri"
+
+msgid "Email"
+msgstr "E-posta"
+
+msgid "Email is required."
+msgstr "E-posta zorunludur."
+
+msgid "Please enter a valid email address."
+msgstr "Lütfen geçerli bir e-posta adresi girin."
+
+msgid "Phone number is required."
+msgstr "Telefon numarası zorunludur."
+
+msgid "Cardholder Name"
+msgstr "Kart Sahibinin Adı"
+
+msgid "Card Number"
+msgstr "Kart Numarası"
+
+msgid "Expiry Date"
+msgstr "Son Kullanma Tarihi"
+
+msgid "CVC"
+msgstr "CVC"
+
+msgid "Pay"
+msgstr "Öde"
+
+msgid "Order Complete"
+msgstr "Sipariş Tamamlandı"
+
+msgid "Thank you!"
+msgstr "Teşekkür ederiz!"
+
+msgid "Your payment has been processed and your order is complete."
+msgstr "Ödemeniz işlendi ve siparişiniz tamamlandı."
+
+msgid "Order total:"
+msgstr "Sipariş toplamı:"
+
+msgid "Order status:"
+msgstr "Sipariş durumu:"
+
+msgid "Completed"
+msgstr "Tamamlandı"
+
+msgid "Continue Shopping"
+msgstr "Alışverişe Devam Et"
+
+msgid "View Orders"
+msgstr "Siparişleri Görüntüle"
+
+msgid "Payment successful. Your order has been placed."
+msgstr "Ödeme başarılı. Siparişiniz oluşturuldu."
+
+msgid "Bank Transfer"
+msgstr "Banka Havalesi"
+
+msgid "Place your order now and complete the payment later by bank transfer."
+msgstr ""
+"Siparişinizi şimdi oluşturun ve ödemeyi daha sonra banka havalesiyle "
+"tamamlayın."
+
+msgid "Transfer Details"
+msgstr "Havale Bilgileri"
+
+msgid "Recipient"
+msgstr "Alıcı"
+
+msgid "IBAN will be added soon."
+msgstr "IBAN yakında eklenecek."
+
+msgid ""
+"You can make the transfer later. Your order will be confirmed after we "
+"verify the payment."
+msgstr ""
+"Havaleyi daha sonra yapabilirsiniz. Ödemeyi doğruladıktan sonra siparişiniz "
+"onaylanacaktır."
+
+msgid "Place Order"
+msgstr "Siparişi Oluştur"
+
+msgid "Order Received"
+msgstr "Sipariş Alındı"
+
+msgid ""
+"Your order has been placed. Please complete the bank transfer to confirm it."
+msgstr ""
+"Siparişiniz oluşturuldu. Onaylamak için lütfen banka havalesini tamamlayın."
+
+msgid "Your order has been placed. Please complete the bank transfer."
+msgstr "Siparişiniz oluşturuldu. Lütfen banka havalesini tamamlayın."
+
+msgid "Awaiting bank transfer"
+msgstr "Banka havalesi bekleniyor"
+
+msgid "Order history and status tracking will appear on this page."
+msgstr "Sipariş geçmişi ve durum takibi bu sayfada görünecek."
+
+msgid "You have no orders yet."
+msgstr "Henüz siparişiniz yok."
+
+msgid "User information and address management will be displayed here."
+msgstr "Kullanıcı bilgileri ve adres yönetimi burada gösterilecektir."
+
+msgid "Profile data is not available because you are not logged in."
+msgstr "Profil verileri giriş yapmadığınız için mevcut değil."
+
+msgid "Your account"
+msgstr "Hesabınız"
+
+msgid "Track your purchases and see the details of every order."
+msgstr ""
+"Alışverişlerinizi takip edin ve her siparişin ayrıntılarını görüntüleyin."
+
+msgid "Order details"
+msgstr "Sipariş ayrıntıları"
+
+msgid "Placed"
+msgstr "Oluşturulma tarihi"
+
+msgid "Order Total"
+msgstr "Sipariş toplamı"
+
+msgid "Items"
+msgstr "Ürün sayısı"
+
+msgid "New"
+msgstr "Yeni"
+
+msgid "Paid"
+msgstr "Ödendi"
+
+msgid "Shipped"
+msgstr "Kargoya verildi"
+
+msgid "Update your contact details and review your order history."
+msgstr "İletişim bilgilerinizi güncelleyin ve sipariş geçmişinizi inceleyin."
+
+msgid "Account Details"
+msgstr "Hesap Bilgileri"
+
+msgid "Username:"
+msgstr "Kullanıcı adı:"
+
+msgid "Email:"
+msgstr "E-posta:"
+
+msgid "Not provided"
+msgstr "Belirtilmemiş"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Address"
+msgstr "Adres"
+
+msgid "Save Profile"
+msgstr "Profili Kaydet"
+
+msgid "Order History"
+msgstr "Sipariş Geçmişi"
+
+msgid "Order"
+msgstr "Sipariş"
+
+msgid "Placed:"
+msgstr "Oluşturulma tarihi:"
+
+msgid "Total:"
+msgstr "Toplam:"
+
+msgid "Status:"
+msgstr "Durum:"
+
+msgid "Your profile has been updated."
+msgstr "Profiliniz güncellendi."

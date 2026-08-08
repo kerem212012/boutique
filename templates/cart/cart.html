@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Cart" %} | Kalkan Nilüfer Butik{% endblock %}
+
+{% block content %}
+<section class="page">
+    <h1>{% trans "Shopping Cart" %}</h1>
+    {% if items %}
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>{% trans "Product" %}</th>
+                    <th>{% trans "Quantity" %}</th>
+                    <th>{% trans "Price" %}</th>
+                    <th>{% trans "Total" %}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>
+                            <strong>{{ item.product.name }}</strong>
+                            {% if item.selected_size %}<small>{% trans "Size" %}: {{ item.selected_size }}</small>{% endif %}
+                            {% if item.selected_color %}<small>{% trans "Color" %}: {{ item.selected_color }}</small>{% endif %}
+                        </td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.price }} ₺</td>
+                        <td>{{ item.quantity }} × {{ item.product.price }} ₺</td>
+                        <td><a class="button button-secondary" href="{% url 'cart:remove-from-cart' item.id %}">{% trans "Remove" %}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="cart-summary">
+            <p><strong>{% trans "Total" %}:</strong> {{ total }} ₺</p>
+            <a class="button button-primary" href="{% url 'cart:checkout' %}">{% trans "Checkout" %}</a>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>{% trans "Your cart is currently empty." %}</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
