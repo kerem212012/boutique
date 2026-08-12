@@ -71,7 +71,6 @@ def checkout_view(request):
     cart = get_cart(request)
     items = cart.items.select_related('product').all()
     if not items:
-        messages.info(request, _('Your cart is empty.'))
         return redirect('cart:cart-view')
 
     total = sum(item.quantity * item.product.price for item in items)

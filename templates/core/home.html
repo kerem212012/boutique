@@ -4,6 +4,18 @@
 {% block title %}{% trans "Home" %} | Kalkan Nilüfer Butik{% endblock %}
 
 {% block content %}
+<section class="page categories-section">
+    <div class="section-title">
+        <h3>{% trans "Categories" %}</h3>
+        <a href="{% url 'catalog:product-list' %}">{% trans "View All" %}</a>
+    </div>
+    <div class="category-grid">
+        {% for category in nav_categories %}
+            <a class="category-button" href="{% url 'catalog:product-list' %}?category={{ category.slug }}">{{ category.name|capfirst }}</a>
+        {% endfor %}
+    </div>
+</section>
+
 <section class="page">
     <div class="section-title">
         <h3>{% trans "Featured Pieces" %}</h3>

@@ -20,15 +20,15 @@
             <tbody>
                 {% for item in items %}
                     <tr>
-                        <td>
+                        <td data-label="{% trans 'Product' %}">
                             <strong>{{ item.product.name }}</strong>
                             {% if item.selected_size %}<small>{% trans "Size" %}: {{ item.selected_size }}</small>{% endif %}
                             {% if item.selected_color %}<small>{% trans "Color" %}: {{ item.selected_color }}</small>{% endif %}
                         </td>
-                        <td>{{ item.quantity }}</td>
-                        <td>{{ item.product.price }} ₺</td>
-                        <td>{{ item.quantity }} × {{ item.product.price }} ₺</td>
-                        <td><a class="button button-secondary" href="{% url 'cart:remove-from-cart' item.id %}">{% trans "Remove" %}</a></td>
+                        <td data-label="{% trans 'Quantity' %}">{{ item.quantity }}</td>
+                        <td data-label="{% trans 'Price' %}">{{ item.product.price }} ₺</td>
+                        <td data-label="{% trans 'Total' %}">{{ item.quantity }} × {{ item.product.price }} ₺</td>
+                        <td data-label="{% trans 'Action' %}"><a class="button button-secondary" href="{% url 'cart:remove-from-cart' item.id %}">{% trans "Remove" %}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

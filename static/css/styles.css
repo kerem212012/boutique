@@ -67,9 +67,56 @@ header {
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
   .header-banner {
-    height: 300px;
+    height: 260px;
+  }
+
+  .topbar {
+    padding: 10px 0;
+    gap: 10px;
+  }
+
+  .brand-logo {
+    gap: 1px;
+  }
+
+  .logo-top {
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+  }
+
+  .logo-main {
+    font-size: 1.3rem;
+  }
+
+  .brand-tagline {
+    font-size: 1rem;
+    max-width: 100%;
+  }
+
+  .nav-links {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 8px;
+  }
+
+  .nav-links a,
+  .nav-link-button {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+
+  .language-switcher {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .language-switcher select {
+    padding: 8px 10px;
+    font-size: 0.88rem;
   }
 }
 
@@ -346,6 +393,46 @@ header {
 .section-title a {
   color: var(--accent-dark);
   font-weight: 600;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.category-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.category-button:hover {
+  background: var(--accent-soft);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 860px) {
+  .category-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .grid {
@@ -1258,6 +1345,128 @@ footer {
   .language-switcher {
     width: 100%;
     justify-content: center;
+  }
+
+  .cart-table,
+  .cart-table thead,
+  .cart-table tbody,
+  .cart-table tr,
+  .cart-table td {
+    display: block;
+  }
+
+  .cart-table {
+    margin-top: 18px;
+  }
+
+  .cart-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .cart-table tr {
+    margin-bottom: 16px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--surface);
+  }
+
+  .cart-table td {
+    display: grid;
+    grid-template-columns: minmax(90px, 0.4fr) minmax(0, 0.6fr);
+    gap: 10px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(92,52,95,0.08);
+    min-width: 0;
+  }
+
+  .cart-table td::before {
+    content: attr(data-label);
+    display: block;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .cart-table td:first-child {
+    display: block;
+  }
+
+  .cart-table td:first-child::before {
+    margin-bottom: 6px;
+  }
+
+  .cart-table td:last-child {
+    border-bottom: 0;
+  }
+
+  .cart-table td .button {
+    width: 100%;
+    justify-self: start;
+  }
+
+  .cart-summary {
+    justify-content: stretch;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cart-summary p,
+  .cart-summary .button {
+    width: 100%;
+  }
+
+  .checkout-summary {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .checkout-details,
+  .checkout-sidebar {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .checkout-details li,
+  .bank-transfer-details p {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .checkout-form input,
+  .checkout-form textarea {
+    font-size: 1rem;
+  }
+
+  .checkout-form .button {
+    width: 100%;
+  }
+
+  .checkout-total {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .profile-page-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .profile-card {
+    padding: 20px;
+  }
+
+  .profile-form button {
+    width: 100%;
   }
 
   .orders-page-heading {
