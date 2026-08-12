@@ -20,12 +20,20 @@ class Category(models.Model):
             return self.name_en
         return self.name_tr
 
+    @name.setter
+    def name(self, value):
+        self.name_tr = value
+
     @property
     def description(self):
         lang = get_language()
         if lang and lang.startswith('en') and self.description_en:
             return self.description_en
         return self.description_tr
+
+    @description.setter
+    def description(self, value):
+        self.description_tr = value
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -57,12 +65,20 @@ class Product(models.Model):
             return self.name_en
         return self.name_tr
 
+    @name.setter
+    def name(self, value):
+        self.name_tr = value
+
     @property
     def description(self):
         lang = get_language()
         if lang and lang.startswith('en') and self.description_en:
             return self.description_en
         return self.description_tr
+
+    @description.setter
+    def description(self, value):
+        self.description_tr = value
 
     def save(self, *args, **kwargs):
         if not self.slug:
