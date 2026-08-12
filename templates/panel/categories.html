@@ -1,0 +1,50 @@
+{% extends 'panel/base.html' %}
+
+{% block title %}Kategoriler{% endblock %}
+{% block page_title %}Kategoriler{% endblock %}
+{% block nav_categories %}active{% endblock %}
+{% block mnav_categories %}active{% endblock %}
+
+{% block page_actions %}
+    <a href="{% url 'panel:category-add' %}" class="btn btn-primary btn-panel-sm">+ Kategori Ekle</a>
+{% endblock %}
+
+{% block content %}
+<div class="panel-card">
+    <div class="panel-table-wrap">
+        <table class="panel-table">
+            <thead>
+                <tr>
+                    <th>Ad (TR)</th>
+                    <th>Ad (EN)</th>
+                    <th>URL Adı</th>
+                    <th>Ürün Sayısı</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cat in categories %}
+                <tr>
+                    <td>{{ cat.name_tr }}</td>
+                    <td class="text-muted">{{ cat.name_en|default:"—" }}</td>
+                    <td class="text-muted" style="font-family:monospace;font-size:0.82rem;">{{ cat.slug }}</td>
+                    <td>{{ cat.products.count }}</td>
+                    <td>
+                        <div class="d-flex gap-8">
+                            <a href="{% url 'panel:category-edit' cat.pk %}" class="btn btn-secondary btn-panel-sm">Düzenle</a>
+                            <a href="{% url 'panel:category-delete' cat.pk %}" class="btn btn-panel-sm btn-panel-danger">Sil</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align:center;padding:40px;color:var(--muted);">
+                        Henüz kategori yok. <a href="{% url 'panel:category-add' %}" style="color:var(--text);font-weight:700;">İlkini ekleyin</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

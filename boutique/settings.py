@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'catalog',
     'core',
     'orders',
+    'panel',
     'users',
 ]
 
@@ -133,6 +134,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 STATIC_URL = env('STATIC_URL', default='/static/')
 STATICFILES_DIRS = [BASE_DIR / 'static']

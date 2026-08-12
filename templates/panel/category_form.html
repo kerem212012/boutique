@@ -1,0 +1,83 @@
+{% extends 'panel/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+{% block nav_categories %}active{% endblock %}
+{% block mnav_categories %}active{% endblock %}
+
+{% block page_actions %}
+    <a href="{% url 'panel:categories' %}" class="btn btn-secondary btn-panel-sm">&#8592; Geri</a>
+{% endblock %}
+
+{% block content %}
+<form method="post" style="max-width:640px;">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+        <div class="panel-msg error">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <div class="lang-tabs">
+        <button type="button" class="lang-tab active" onclick="switchLang('tr', this)">Türkçe</button>
+        <button type="button" class="lang-tab" onclick="switchLang('en', this)">English</button>
+    </div>
+
+    <div class="panel-card panel-card-body" id="lang-tr">
+        <div class="panel-section-title">Türkçe İçerik</div>
+        <div class="panel-form-grid">
+            <div class="panel-form-group">
+                <label for="{{ form.name_tr.id_for_label }}">Türkçe Ad</label>
+                {{ form.name_tr }}
+                {% if form.name_tr.errors %}<div class="panel-form-errors">{{ form.name_tr.errors }}</div>{% endif %}
+            </div>
+            <div class="panel-form-group">
+                <label for="{{ form.description_tr.id_for_label }}">Türkçe Açıklama</label>
+                {{ form.description_tr }}
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-card panel-card-body mt-16" id="lang-en" style="display:none;">
+        <div class="panel-section-title">İngilizce İçerik</div>
+        <div class="panel-form-grid">
+            <div class="panel-form-group">
+                <label for="{{ form.name_en.id_for_label }}">İngilizce Ad</label>
+                {{ form.name_en }}
+                {% if form.name_en.errors %}<div class="panel-form-errors">{{ form.name_en.errors }}</div>{% endif %}
+            </div>
+            <div class="panel-form-group">
+                <label for="{{ form.description_en.id_for_label }}">İngilizce Açıklama</label>
+                {{ form.description_en }}
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-card panel-card-body mt-16">
+        <div class="panel-form-group">
+            <label for="{{ form.slug.id_for_label }}">URL Adı (Slug)</label>
+            {{ form.slug }}
+            <span class="panel-form-help">Boş bırakın — otomatik oluşturulur</span>
+            {% if form.slug.errors %}<div class="panel-form-errors">{{ form.slug.errors }}</div>{% endif %}
+        </div>
+    </div>
+
+    <div class="d-flex gap-8 mt-20 flex-wrap align-center">
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+        <a href="{% url 'panel:categories' %}" class="btn btn-secondary">İptal</a>
+        {% if category %}
+            <a href="{% url 'panel:category-delete' category.pk %}" class="btn btn-panel-danger ml-auto">Sil</a>
+        {% endif %}
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function switchLang(lang, btn) {
+    document.querySelectorAll('.lang-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('lang-tr').style.display = lang === 'tr' ? '' : 'none';
+    document.getElementById('lang-en').style.display = lang === 'en' ? '' : 'none';
+}
+</script>
+{% endblock %}
