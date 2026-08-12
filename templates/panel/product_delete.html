@@ -1,0 +1,24 @@
+{% extends 'panel/base.html' %}
+
+{% block title %}Ürünü Sil{% endblock %}
+{% block page_title %}Ürünü Sil{% endblock %}
+{% block nav_products %}active{% endblock %}
+{% block mnav_products %}active{% endblock %}
+
+{% block page_actions %}
+    <a href="{% url 'panel:products' %}" class="btn btn-secondary btn-panel-sm">&#8592; Geri</a>
+{% endblock %}
+
+{% block content %}
+<div class="panel-card panel-card-body" style="max-width:480px;">
+    <p style="font-size:0.95rem;line-height:1.7;margin-bottom:20px;">
+        <strong>{{ product.name_tr }}</strong> adlı ürünü silmek istediğinizden emin misiniz?<br>
+        <span class="text-muted">Bu işlem geri alınamaz. Ürünün tüm fotoğrafları da silinecek.</span>
+    </p>
+    <form method="post" class="d-flex gap-8">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-panel-danger">Evet, Sil</button>
+        <a href="{% url 'panel:products' %}" class="btn btn-secondary">İptal</a>
+    </form>
+</div>
+{% endblock %}

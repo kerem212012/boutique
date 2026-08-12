@@ -1,0 +1,695 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Yönetim{% endblock %} — Butik Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* ── Panel-specific layout on top of site styles ── */
+
+        body {
+            background: linear-gradient(135deg, #f7efe8 0%, var(--bg) 100%);
+        }
+
+        .panel-wrap {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .panel-sidebar {
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            width: 230px;
+            background: var(--accent);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            z-index: 200;
+            overflow-y: auto;
+        }
+
+        .sidebar-brand {
+            padding: 24px 20px 18px;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+
+        .sidebar-brand .logo-top {
+            font-size: 0.72rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,.6);
+        }
+
+        .sidebar-brand .logo-main {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #fff;
+            line-height: 1.1;
+        }
+
+        .sidebar-brand .sub {
+            margin-top: 4px;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,.45);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .sidebar-nav {
+            padding: 12px 0;
+            flex: 1;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 20px;
+            color: rgba(255,255,255,.72);
+            font-size: 0.88rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: background .15s, color .15s;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(255,255,255,.08);
+            color: #fff;
+        }
+
+        .sidebar-nav a.active {
+            background: rgba(255,255,255,.1);
+            color: #fff;
+            border-left-color: var(--accent-soft);
+        }
+
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid rgba(255,255,255,.1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sidebar-footer a {
+            color: rgba(255,255,255,.55);
+            font-size: 0.82rem;
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            transition: color .15s;
+        }
+
+        .sidebar-footer a:hover {
+            color: #fff;
+        }
+
+        /* Mobile topbar */
+        .panel-topbar {
+            display: none;
+            position: sticky;
+            top: 0;
+            z-index: 150;
+            background: var(--accent);
+            color: #fff;
+            padding: 0 16px;
+            height: 54px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-topbar .tb-brand {
+            font-family: Georgia, serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .panel-topbar .tb-menu {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(70,38,63,.45);
+            z-index: 190;
+        }
+
+        .sidebar-overlay.open { display: block; }
+
+        /* Main content area */
+        .panel-main {
+            margin-left: 230px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-page-header {
+            background: rgba(255,255,255,.84);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .panel-page-header h1 {
+            margin: 0;
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text);
+        }
+
+        .panel-page-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .panel-content {
+            padding: 28px 32px;
+            flex: 1;
+        }
+
+        /* Mobile bottom nav */
+        .panel-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            z-index: 200;
+            background: #fff;
+            border-top: 1px solid var(--border);
+            padding: 6px 0 env(safe-area-inset-bottom, 6px);
+        }
+
+        .panel-bottom-nav-inner {
+            display: flex;
+        }
+
+        .panel-bottom-nav a {
+            flex: 1;
+            text-align: center;
+            font-size: 0.68rem;
+            color: var(--muted);
+            text-decoration: none;
+            padding: 6px 4px 4px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .panel-bottom-nav a.active {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .panel-bottom-nav .bnav-icon {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+        /* Messages */
+        .panel-messages {
+            margin-bottom: 20px;
+        }
+
+        .panel-msg {
+            padding: 13px 18px;
+            border-radius: 14px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+        }
+
+        .panel-msg.success {
+            background: #f0faf3;
+            color: #1a6632;
+            border-color: rgba(26,102,50,.15);
+        }
+
+        .panel-msg.error {
+            background: #fdf2f3;
+            color: #a33a46;
+            border-color: rgba(163,58,70,.15);
+        }
+
+        .panel-msg.warning {
+            background: #fffbf0;
+            color: #7a5f00;
+            border-color: rgba(122,95,0,.15);
+        }
+
+        /* Cards (panel-specific overrides) */
+        .panel-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            box-shadow: 0 16px 32px rgba(34,34,34,.07);
+            overflow: hidden;
+        }
+
+        .panel-card-body {
+            padding: 24px;
+        }
+
+        .panel-stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+        }
+
+        .panel-stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 22px;
+            box-shadow: 0 16px 32px rgba(34,34,34,.07);
+        }
+
+        .panel-stat-label {
+            font-size: 0.78rem;
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .panel-stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* Section title */
+        .panel-section-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        /* Buttons (admin-specific, using site palette) */
+        .btn-panel-primary {
+            background: var(--text);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .btn-panel-primary:hover {
+            background: var(--accent-dark);
+        }
+
+        .btn-panel-ghost {
+            background: #fff;
+            color: var(--text);
+            border-color: var(--border);
+        }
+
+        .btn-panel-ghost:hover {
+            background: var(--bg);
+        }
+
+        .btn-panel-danger {
+            background: #a33a46;
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .btn-panel-sm {
+            padding: 9px 18px;
+            font-size: 0.82rem;
+        }
+
+        /* Table */
+        .panel-table-wrap { overflow-x: auto; }
+
+        .panel-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .panel-table thead th {
+            padding: 12px 18px;
+            border-bottom: 2px solid var(--border);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            text-align: left;
+            background: rgba(244,235,228,.4);
+        }
+
+        .panel-table tbody td {
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(92,52,95,.08);
+            vertical-align: middle;
+            color: var(--text);
+        }
+
+        .panel-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .panel-table tbody tr:hover {
+            background: rgba(244,235,228,.5);
+        }
+
+        .panel-thumb {
+            width: 52px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 12px;
+            display: block;
+        }
+
+        .panel-thumb-empty {
+            width: 52px;
+            height: 52px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .panel-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .panel-badge-yes {
+            background: rgba(26,102,50,.1);
+            color: #1a6632;
+            border: 1px solid rgba(26,102,50,.2);
+        }
+
+        .panel-badge-no {
+            background: rgba(92,52,95,.07);
+            color: var(--muted);
+            border: 1px solid var(--border);
+        }
+
+        /* Forms */
+        .panel-form-grid { display: grid; gap: 18px; }
+        .panel-form-grid-2 { grid-template-columns: 1fr 1fr; }
+
+        .panel-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .panel-form-group label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .form-input {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            background: #fff;
+            color: var(--text);
+            font-family: inherit;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-soft);
+            box-shadow: 0 0 0 3px rgba(161,126,160,.18);
+        }
+
+        textarea.form-input {
+            min-height: 96px;
+            resize: vertical;
+        }
+
+        select.form-input { cursor: pointer; }
+
+        .panel-form-help {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .panel-form-errors {
+            font-size: 0.82rem;
+            color: #a33a46;
+        }
+
+        .panel-form-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-top: 6px;
+        }
+
+        .panel-form-check input[type=checkbox] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--text);
+        }
+
+        /* Language tabs */
+        .lang-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .lang-tab {
+            padding: 8px 20px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            transition: all .15s;
+            font-family: inherit;
+        }
+
+        .lang-tab.active {
+            background: var(--text);
+            border-color: var(--text);
+            color: #fff;
+        }
+
+        /* Photos */
+        .panel-photos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .panel-photo-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .panel-photo-card img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            display: block;
+        }
+
+        .panel-photo-del {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(163,58,70,.9);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .panel-photo-caption {
+            font-size: 0.75rem;
+            padding: 5px 8px;
+            background: rgba(244,235,228,.9);
+            color: var(--muted);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Divider */
+        .panel-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 24px 0;
+        }
+
+        /* Util */
+        .mt-16 { margin-top: 16px; }
+        .mt-20 { margin-top: 20px; }
+        .d-flex { display: flex; }
+        .gap-8 { gap: 8px; }
+        .gap-12 { gap: 12px; }
+        .align-center { align-items: center; }
+        .text-muted { color: var(--muted); }
+        .ml-auto { margin-left: auto; }
+        .flex-wrap { flex-wrap: wrap; }
+
+        /* Responsive */
+        @media (max-width: 800px) {
+            .panel-sidebar {
+                transform: translateX(-100%);
+                transition: transform .25s;
+            }
+
+            .panel-sidebar.open {
+                transform: translateX(0);
+            }
+
+            .panel-topbar { display: flex; }
+            .panel-bottom-nav { display: block; }
+            .panel-main { margin-left: 0; padding-bottom: 68px; }
+            .panel-page-header { padding: 14px 16px; top: 54px; }
+            .panel-content { padding: 16px; }
+            .panel-form-grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="panelOverlay" onclick="closeSidebar()"></div>
+
+<aside class="panel-sidebar" id="panelSidebar">
+    <div class="sidebar-brand">
+        <a href="{% url 'panel:dashboard' %}" style="text-decoration:none;">
+            <div class="logo-top">Kalkan</div>
+            <div class="logo-main">Nilüfer Butik</div>
+        </a>
+        <div class="sub">Yönetim Paneli</div>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="{% url 'panel:dashboard' %}" class="{% block nav_dashboard %}{% endblock %}">
+            Ana Sayfa
+        </a>
+        <a href="{% url 'panel:products' %}" class="{% block nav_products %}{% endblock %}">
+            Ürünler
+        </a>
+        <a href="{% url 'panel:categories' %}" class="{% block nav_categories %}{% endblock %}">
+            Kategoriler
+        </a>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="{% url 'home' %}" target="_blank">&#8599; Siteyi Aç</a>
+        <a href="{% url 'admin:index' %}">&#9881; Django Admin</a>
+    </div>
+</aside>
+
+<div class="panel-topbar" id="panelTopbar">
+    <a href="{% url 'panel:dashboard' %}" class="tb-brand">Nilüfer Butik</a>
+    <button class="tb-menu" onclick="openSidebar()">&#9776;</button>
+</div>
+
+<div class="panel-main">
+    <div class="panel-page-header">
+        <h1>{% block page_title %}Yönetim Paneli{% endblock %}</h1>
+        <div class="panel-page-actions">{% block page_actions %}{% endblock %}</div>
+    </div>
+
+    <div class="panel-content">
+        {% if messages %}
+            <div class="panel-messages">
+                {% for message in messages %}
+                    <div class="panel-msg {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+<nav class="panel-bottom-nav">
+    <div class="panel-bottom-nav-inner">
+        <a href="{% url 'panel:dashboard' %}" class="{% block mnav_dashboard %}{% endblock %}">
+            <span class="bnav-icon">&#9632;</span>Ana Sayfa
+        </a>
+        <a href="{% url 'panel:products' %}" class="{% block mnav_products %}{% endblock %}">
+            <span class="bnav-icon">&#9830;</span>Ürünler
+        </a>
+        <a href="{% url 'panel:categories' %}" class="{% block mnav_categories %}{% endblock %}">
+            <span class="bnav-icon">&#9670;</span>Kategoriler
+        </a>
+        <a href="{% url 'home' %}" target="_blank">
+            <span class="bnav-icon">&#8599;</span>Site
+        </a>
+    </div>
+</nav>
+
+<script>
+function openSidebar() {
+    document.getElementById('panelSidebar').classList.add('open');
+    document.getElementById('panelOverlay').classList.add('open');
+}
+function closeSidebar() {
+    document.getElementById('panelSidebar').classList.remove('open');
+    document.getElementById('panelOverlay').classList.remove('open');
+}
+</script>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

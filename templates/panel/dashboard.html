@@ -1,0 +1,36 @@
+{% extends 'panel/base.html' %}
+
+{% block title %}Ana Sayfa{% endblock %}
+{% block page_title %}Ana Sayfa{% endblock %}
+{% block nav_dashboard %}active{% endblock %}
+{% block mnav_dashboard %}active{% endblock %}
+
+{% block content %}
+<div class="panel-stat-grid">
+    <div class="panel-stat-card">
+        <div class="panel-stat-label">Ürünler</div>
+        <div class="panel-stat-value">{{ product_count }}</div>
+    </div>
+    <div class="panel-stat-card">
+        <div class="panel-stat-label">Kategoriler</div>
+        <div class="panel-stat-value">{{ category_count }}</div>
+    </div>
+    <div class="panel-stat-card">
+        <div class="panel-stat-label">Öne Çıkanlar</div>
+        <div class="panel-stat-value">{{ featured_count }}</div>
+    </div>
+    <div class="panel-stat-card">
+        <div class="panel-stat-label">Fotoğraflar</div>
+        <div class="panel-stat-value">{{ photo_count }}</div>
+    </div>
+</div>
+
+<div class="panel-divider"></div>
+
+<div class="panel-section-title">Hızlı İşlemler</div>
+<div class="d-flex gap-12 flex-wrap">
+    <a href="{% url 'panel:product-add' %}" class="btn btn-primary">+ Ürün Ekle</a>
+    <a href="{% url 'panel:products' %}" class="btn btn-secondary">Tüm Ürünler</a>
+    <a href="{% url 'panel:category-add' %}" class="btn btn-secondary">+ Kategori Ekle</a>
+</div>
+{% endblock %}

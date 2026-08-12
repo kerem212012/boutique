@@ -1,0 +1,58 @@
+{% extends 'panel/base.html' %}
+
+{% block title %}Galeri — {{ product.name_tr }}{% endblock %}
+{% block page_title %}Galeri: {{ product.name_tr }}{% endblock %}
+{% block nav_products %}active{% endblock %}
+{% block mnav_products %}active{% endblock %}
+
+{% block page_actions %}
+    <a href="{% url 'panel:product-edit' product.pk %}" class="btn btn-secondary btn-panel-sm">&#8592; Ürüne Dön</a>
+{% endblock %}
+
+{% block content %}
+<!-- Yükleme formu -->
+<div class="panel-card panel-card-body" style="margin-bottom:24px;">
+    <div class="panel-section-title">Fotoğraf Yükle</div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="panel-form-grid panel-form-grid-2">
+            <div class="panel-form-group">
+                <label>Fotoğraf Dosyası</label>
+                {{ form.image }}
+            </div>
+            <div class="panel-form-group">
+                <label for="{{ form.alt_text.id_for_label }}">Açıklama (isteğe bağlı)</label>
+                {{ form.alt_text }}
+            </div>
+            <div class="panel-form-group">
+                <label for="{{ form.sort_order.id_for_label }}">Sıra</label>
+                {{ form.sort_order }}
+                <span class="panel-form-help">Küçük sayı = galeride önce</span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-16">Yükle</button>
+    </form>
+</div>
+
+<!-- Galeri -->
+<div class="panel-section-title">Galeri ({{ photos|length }} fotoğraf)</div>
+{% if photos %}
+<div class="panel-photos-grid">
+    {% for photo in photos %}
+    <div class="panel-photo-card">
+        <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}">
+        <form method="post" action="{% url 'panel:photo-delete' product.pk photo.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="panel-photo-del" title="Fotoğrafı sil"
+                onclick="return confirm('Bu fotoğrafı silmek istediğinizden emin misiniz?')">&#215;</button>
+        </form>
+        {% if photo.alt_text %}
+            <div class="panel-photo-caption">{{ photo.alt_text }}</div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <p class="text-muted">Galeride henüz fotoğraf yok.</p>
+{% endif %}
+{% endblock %}

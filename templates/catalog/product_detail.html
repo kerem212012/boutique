@@ -6,22 +6,37 @@
 {% block content %}
 <section class="product-detail-page">
     <div class="product-detail-gallery">
-        <div class="product-main-image">
+
+        <!-- Main image (click to zoom) -->
+        <div class="product-main-image" id="mainImageWrap">
             {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <img id="mainImg" src="{{ product.image.url }}" alt="{{ product.name }}">
             {% elif product.gallery.first %}
-                <img src="{{ product.gallery.first.image.url }}" alt="{{ product.gallery.first.alt_text|default:product.name }}">
+                <img id="mainImg" src="{{ product.gallery.first.image.url }}" alt="{{ product.gallery.first.alt_text|default:product.name }}">
             {% else %}
-                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935-763728e1935b?auto=format&fit=crop&w=1200&q=85" alt="{{ product.name }}">
+                <img id="mainImg" src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=85" alt="{{ product.name }}">
             {% endif %}
         </div>
-        {% if product.gallery.all %}
-            <div class="product-gallery-grid">
-                {% for gallery_image in product.gallery.all %}
-                    <img src="{{ gallery_image.image.url }}" alt="{{ gallery_image.alt_text|default:product.name }}">
-                {% endfor %}
-            </div>
+
+        <!-- Thumbnails: main image + gallery -->
+        {% with has_main=product.image has_gallery=product.gallery.all %}
+        {% if has_main or has_gallery %}
+        <div class="product-gallery-grid">
+            {% if has_main %}
+                <img src="{{ product.image.url }}"
+                     alt="{{ product.name }}"
+                     class="gallery-thumb active"
+                     onclick="switchImage(this, '{{ product.image.url }}')">
+            {% endif %}
+            {% for gi in has_gallery %}
+                <img src="{{ gi.image.url }}"
+                     alt="{{ gi.alt_text|default:product.name }}"
+                     class="gallery-thumb{% if not product.image and forloop.first %} active{% endif %}"
+                     onclick="switchImage(this, '{{ gi.image.url }}')">
+            {% endfor %}
+        </div>
         {% endif %}
+        {% endwith %}
     </div>
 
     <div class="product-detail-copy">
@@ -37,7 +52,10 @@
                     <legend>{% trans "Size" %}</legend>
                     <div class="option-list">
                         {% for size in product.sizes %}
-                            <label class="option-choice"><input type="radio" name="size" value="{{ size }}" required><span>{{ size }}</span></label>
+                            <label class="option-choice">
+                                <input type="radio" name="size" value="{{ size }}" required>
+                                <span>{{ size }}</span>
+                            </label>
                         {% endfor %}
                     </div>
                 </fieldset>
@@ -47,7 +65,10 @@
                     <legend>{% trans "Color" %}</legend>
                     <div class="option-list">
                         {% for color in product.colors %}
-                            <label class="option-choice"><input type="radio" name="color" value="{{ color }}" required><span>{{ color }}</span></label>
+                            <label class="option-choice">
+                                <input type="radio" name="color" value="{{ color }}" required>
+                                <span>{{ color }}</span>
+                            </label>
                         {% endfor %}
                     </div>
                 </fieldset>
@@ -56,4 +77,192 @@
         </form>
     </div>
 </section>
+
+<!-- Lightbox overlay -->
+<div id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="event.stopPropagation(); closeLightbox()">&#215;</button>
+    <img id="lightboxImg" src="" alt="">
+    <div class="lightbox-nav">
+        <button id="lightboxPrev" onclick="event.stopPropagation(); lightboxStep(-1)">&#8592;</button>
+        <button id="lightboxNext" onclick="event.stopPropagation(); lightboxStep(1)">&#8594;</button>
+    </div>
+</div>
+
+<style>
+    /* Gallery thumbnails */
+    .gallery-thumb {
+        cursor: pointer;
+        opacity: 0.62;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        transition: opacity .2s ease, border-color .2s ease, transform .15s ease;
+    }
+    .gallery-thumb:hover { opacity: 0.88; transform: scale(1.03); }
+    .gallery-thumb.active { opacity: 1; border-color: var(--text); }
+
+    /* Main image zoom cursor */
+    #mainImg {
+        cursor: zoom-in;
+        transition: transform .3s ease;
+    }
+    #mainImg:hover { transform: scale(1.015); }
+
+    /* Lightbox */
+    #lightbox {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(47, 35, 40, 0.92);
+        z-index: 1000;
+        cursor: zoom-out;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    #lightbox.open { display: flex; }
+
+    #lightboxImg {
+        max-width: min(92vw, 980px);
+        max-height: 90vh;
+        object-fit: contain;
+        border-radius: 16px;
+        box-shadow: 0 32px 80px rgba(0,0,0,.55);
+        cursor: default;
+        user-select: none;
+        transition: opacity .2s;
+    }
+
+    .lightbox-close {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(255,255,255,.3);
+        background: rgba(255,255,255,.12);
+        color: #fff;
+        font-size: 22px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background .15s;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,.25); }
+
+    .lightbox-nav {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        pointer-events: none;
+    }
+    .lightbox-nav button {
+        pointer-events: all;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(255,255,255,.3);
+        background: rgba(255,255,255,.12);
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background .15s;
+    }
+    .lightbox-nav button:hover { background: rgba(255,255,255,.25); }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    var thumbs = Array.from(document.querySelectorAll('.gallery-thumb'));
+    var mainImg = document.getElementById('mainImg');
+    var lightbox = document.getElementById('lightbox');
+    var lightboxImg = document.getElementById('lightboxImg');
+    var currentIndex = 0;
+
+    // Collect all image URLs in order
+    var allSrcs = thumbs.length
+        ? thumbs.map(function (t) { return t.src; })
+        : (mainImg ? [mainImg.src] : []);
+
+    /* ── Switch main image ── */
+    window.switchImage = function (thumb, src) {
+        if (mainImg) mainImg.src = src;
+        thumbs.forEach(function (t) { t.classList.remove('active'); });
+        thumb.classList.add('active');
+        currentIndex = thumbs.indexOf(thumb);
+    };
+
+    /* ── Lightbox ── */
+    function openLightbox(src) {
+        currentIndex = allSrcs.indexOf(src);
+        if (currentIndex === -1) currentIndex = 0;
+        lightboxImg.src = src;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        updateNavButtons();
+    }
+
+    window.closeLightbox = function () {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+    };
+
+    function updateNavButtons() {
+        var prev = document.getElementById('lightboxPrev');
+        var next = document.getElementById('lightboxNext');
+        if (!prev || !next) return;
+        prev.style.visibility = allSrcs.length > 1 ? 'visible' : 'hidden';
+        next.style.visibility = allSrcs.length > 1 ? 'visible' : 'hidden';
+    }
+
+    window.lightboxStep = function (dir) {
+        if (!allSrcs.length) return;
+        currentIndex = (currentIndex + dir + allSrcs.length) % allSrcs.length;
+        lightboxImg.style.opacity = '0';
+        setTimeout(function () {
+            lightboxImg.src = allSrcs[currentIndex];
+            lightboxImg.style.opacity = '1';
+            // Sync active thumbnail
+            thumbs.forEach(function (t, i) {
+                t.classList.toggle('active', i === currentIndex);
+            });
+            if (mainImg) mainImg.src = allSrcs[currentIndex];
+        }, 150);
+    };
+
+    // Open lightbox on main image click
+    if (mainImg) {
+        mainImg.addEventListener('click', function () {
+            openLightbox(this.src);
+        });
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function (e) {
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') lightboxStep(-1);
+        if (e.key === 'ArrowRight') lightboxStep(1);
+    });
+
+    // Swipe support for mobile
+    var touchStartX = 0;
+    lightbox.addEventListener('touchstart', function (e) {
+        touchStartX = e.changedTouches[0].clientX;
+    }, { passive: true });
+    lightbox.addEventListener('touchend', function (e) {
+        var dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 50) lightboxStep(dx < 0 ? 1 : -1);
+    }, { passive: true });
+})();
+</script>
 {% endblock %}

@@ -1,0 +1,133 @@
+{% extends 'panel/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+{% block nav_products %}active{% endblock %}
+{% block mnav_products %}active{% endblock %}
+
+{% block page_actions %}
+    <a href="{% url 'panel:products' %}" class="btn btn-secondary btn-panel-sm">&#8592; Geri</a>
+    {% if product %}
+        <a href="{% url 'panel:product-photos' product.pk %}" class="btn btn-secondary btn-panel-sm">Galeri Fotoğrafları</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+        <div class="panel-msg error">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <!-- Dil sekmeleri -->
+    <div class="lang-tabs">
+        <button type="button" class="lang-tab active" onclick="switchLang('tr', this)">Türkçe</button>
+        <button type="button" class="lang-tab" onclick="switchLang('en', this)">English</button>
+    </div>
+
+    <!-- Türkçe -->
+    <div class="panel-card panel-card-body" id="lang-tr">
+        <div class="panel-section-title">Türkçe İçerik</div>
+        <div class="panel-form-grid">
+            <div class="panel-form-group">
+                <label for="{{ form.name_tr.id_for_label }}">Türkçe Ad</label>
+                {{ form.name_tr }}
+                {% if form.name_tr.errors %}<div class="panel-form-errors">{{ form.name_tr.errors }}</div>{% endif %}
+            </div>
+            <div class="panel-form-group">
+                <label for="{{ form.description_tr.id_for_label }}">Türkçe Açıklama</label>
+                {{ form.description_tr }}
+                {% if form.description_tr.errors %}<div class="panel-form-errors">{{ form.description_tr.errors }}</div>{% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- English -->
+    <div class="panel-card panel-card-body mt-16" id="lang-en" style="display:none;">
+        <div class="panel-section-title">İngilizce İçerik</div>
+        <div class="panel-form-grid">
+            <div class="panel-form-group">
+                <label for="{{ form.name_en.id_for_label }}">İngilizce Ad</label>
+                {{ form.name_en }}
+                {% if form.name_en.errors %}<div class="panel-form-errors">{{ form.name_en.errors }}</div>{% endif %}
+            </div>
+            <div class="panel-form-group">
+                <label for="{{ form.description_en.id_for_label }}">İngilizce Açıklama</label>
+                {{ form.description_en }}
+                {% if form.description_en.errors %}<div class="panel-form-errors">{{ form.description_en.errors }}</div>{% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Genel bilgiler -->
+    <div class="panel-card panel-card-body mt-16">
+        <div class="panel-section-title">Genel Bilgiler</div>
+        <div class="panel-form-grid panel-form-grid-2">
+            <div class="panel-form-group">
+                <label for="{{ form.category.id_for_label }}">Kategori</label>
+                {{ form.category }}
+                {% if form.category.errors %}<div class="panel-form-errors">{{ form.category.errors }}</div>{% endif %}
+            </div>
+            <div class="panel-form-group">
+                <label for="{{ form.price.id_for_label }}">Fiyat (₺)</label>
+                {{ form.price }}
+                {% if form.price.errors %}<div class="panel-form-errors">{{ form.price.errors }}</div>{% endif %}
+            </div>
+            <div class="panel-form-group">
+                <label for="{{ form.sizes_text.id_for_label }}">Bedenler</label>
+                {{ form.sizes_text }}
+                <span class="panel-form-help">Virgülle ayırın: S, M, L, XL</span>
+            </div>
+            <div class="panel-form-group">
+                <label for="{{ form.colors_text.id_for_label }}">Renkler</label>
+                {{ form.colors_text }}
+                <span class="panel-form-help">Virgülle ayırın: Beyaz, Siyah</span>
+            </div>
+            <div class="panel-form-group">
+                <label for="{{ form.slug.id_for_label }}">URL Adı (Slug)</label>
+                {{ form.slug }}
+                <span class="panel-form-help">Boş bırakın — otomatik oluşturulur</span>
+                {% if form.slug.errors %}<div class="panel-form-errors">{{ form.slug.errors }}</div>{% endif %}
+            </div>
+            <div class="panel-form-group" style="justify-content:flex-end;">
+                <div class="panel-form-check">
+                    {{ form.is_featured }}
+                    <label for="{{ form.is_featured.id_for_label }}">Öne Çıkan Ürün</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ana fotoğraf -->
+    <div class="panel-card panel-card-body mt-16">
+        <div class="panel-section-title">Ana Fotoğraf</div>
+        {% if product.image %}
+            <img src="{{ product.image.url }}" style="height:140px;object-fit:cover;border-radius:14px;margin-bottom:14px;display:block;">
+        {% endif %}
+        <div class="panel-form-group">
+            {{ form.image }}
+            {% if form.image.errors %}<div class="panel-form-errors">{{ form.image.errors }}</div>{% endif %}
+        </div>
+    </div>
+
+    <div class="d-flex gap-8 mt-20 flex-wrap align-center">
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+        <a href="{% url 'panel:products' %}" class="btn btn-secondary">İptal</a>
+        {% if product %}
+            <a href="{% url 'panel:product-delete' product.pk %}" class="btn btn-panel-danger ml-auto">Ürünü Sil</a>
+        {% endif %}
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function switchLang(lang, btn) {
+    document.querySelectorAll('.lang-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('lang-tr').style.display = lang === 'tr' ? '' : 'none';
+    document.getElementById('lang-en').style.display = lang === 'en' ? '' : 'none';
+}
+</script>
+{% endblock %}
