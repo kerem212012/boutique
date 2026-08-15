@@ -97,7 +97,7 @@ def category_list(request):
 
 @staff_member_required
 def category_add(request):
-    form = CategoryForm(request.POST or None)
+    form = CategoryForm(request.POST or None, request.FILES or None)
     if request.method == 'POST' and form.is_valid():
         form.save()
         messages.success(request, 'Kategori eklendi.')
@@ -108,7 +108,7 @@ def category_add(request):
 @staff_member_required
 def category_edit(request, pk):
     category = get_object_or_404(Category, pk=pk)
-    form = CategoryForm(request.POST or None, instance=category)
+    form = CategoryForm(request.POST or None, request.FILES or None, instance=category)
     if request.method == 'POST' and form.is_valid():
         form.save()
         messages.success(request, 'Kategori güncellendi.')

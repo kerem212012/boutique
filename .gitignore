@@ -10,5 +10,6 @@ wheels/
 .venv
 .env
 .idea
+media
 venv
 *.sqlite3

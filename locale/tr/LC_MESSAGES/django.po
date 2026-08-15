@@ -96,6 +96,9 @@ msgstr "Hızlı Bağlantılar"
 msgid "Contact"
 msgstr "İletişim"
 
+msgid "Categories"
+msgstr "Kategoriler"
+
 msgid "Kalkan, Antalya"
 msgstr "Kalkan, Antalya"
 
@@ -381,3 +384,6 @@ msgstr "Durum:"
 
 msgid "Your profile has been updated."
 msgstr "Profiliniz güncellendi."
+
+msgid "Account"
+msgstr "Hesap"

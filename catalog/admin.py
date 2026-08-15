@@ -30,5 +30,5 @@ class CategoryAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Türkçe', {'fields': ('name_tr', 'description_tr')}),
         ('English', {'fields': ('name_en', 'description_en')}),
-        ('Detaylar', {'fields': ('slug',)}),
+        ('Detaylar', {'fields': ('slug', 'image')}),
     )

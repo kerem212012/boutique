@@ -6,7 +6,10 @@ from catalog.models import Category, Product, ProductImage
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ('name_tr', 'name_en', 'description_tr', 'description_en', 'slug')
+        fields = ('name_tr', 'name_en', 'description_tr', 'description_en', 'slug', 'image')
+        widgets = {
+            'image': forms.FileInput(attrs={'accept': 'image/*'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -14,6 +17,9 @@ class CategoryForm(forms.ModelForm):
         self.fields['slug'].help_text = 'Boş bırakın — otomatik oluşturulur'
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-input'
+        # image field should not get standard text input class
+        if 'image' in self.fields:
+            self.fields['image'].widget.attrs.pop('class', None)
 
 
 class ProductForm(forms.ModelForm):

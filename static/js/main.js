@@ -71,4 +71,54 @@ document.addEventListener('DOMContentLoaded', function () {
             autoScrollTimer = setInterval(nextCard, delay);
         });
     });
+
+    // Mobile language dropdown toggle
+    const mobileLangToggle = document.querySelector('.mobile-lang-toggle');
+    if (mobileLangToggle) {
+        const mobileLang = mobileLangToggle.closest('.mobile-lang');
+        const menu = mobileLang.querySelector('.mobile-lang-menu');
+
+        mobileLangToggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const isOpen = mobileLang.classList.toggle('open');
+            mobileLangToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            menu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+        });
+
+        document.addEventListener('click', function () {
+            if (mobileLang.classList.contains('open')) {
+                mobileLang.classList.remove('open');
+                mobileLangToggle.setAttribute('aria-expanded', 'false');
+                menu.setAttribute('aria-hidden', 'true');
+            }
+        });
+    }
+
+        // Mobile bottom menu (off-canvas)
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileOffcanvas = document.querySelector('.mobile-offcanvas');
+        if (mobileMenuToggle && mobileOffcanvas) {
+            const openClass = 'open';
+            function openMenu() {
+                mobileOffcanvas.classList.add(openClass);
+                mobileMenuToggle.setAttribute('aria-expanded', 'true');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeMenu() {
+                mobileOffcanvas.classList.remove(openClass);
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            }
+
+            mobileMenuToggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                if (mobileOffcanvas.classList.contains(openClass)) closeMenu(); else openMenu();
+            });
+
+            mobileOffcanvas.addEventListener('click', function (e) {
+                if (e.target && e.target.dataset && e.target.dataset.action === 'close') {
+                    closeMenu();
+                }
+            });
+        }
 });

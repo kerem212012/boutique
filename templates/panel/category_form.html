@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-<form method="post" style="max-width:640px;">
+<form method="post" enctype="multipart/form-data" style="max-width:640px;">
     {% csrf_token %}
 
     {% if form.non_field_errors %}
@@ -58,6 +58,18 @@
             {{ form.slug }}
             <span class="panel-form-help">Boş bırakın — otomatik oluşturulur</span>
             {% if form.slug.errors %}<div class="panel-form-errors">{{ form.slug.errors }}</div>{% endif %}
+        </div>
+    </div>
+
+    <div class="panel-card panel-card-body mt-16">
+        <div class="panel-form-group">
+            <label for="{{ form.image.id_for_label }}">Kategori Fotoğrafı</label>
+            {% if category and category.image %}
+                <div style="margin-bottom:8px;"><img src="{{ category.image.url }}" alt="{{ category.name_tr }}" style="max-width:200px;height:auto;border-radius:6px;border:1px solid #eee;"></div>
+            {% endif %}
+            {{ form.image }}
+            <span class="panel-form-help">Tercihe bağlı. Önerilen boyut: 800x400</span>
+            {% if form.image.errors %}<div class="panel-form-errors">{{ form.image.errors }}</div>{% endif %}
         </div>
     </div>
 
