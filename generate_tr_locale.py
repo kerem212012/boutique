@@ -120,6 +120,13 @@ entries = {
     'Total:': 'Toplam:',
     'Status:': 'Durum:',
     'Your profile has been updated.': 'Profiliniz güncellendi.',
+    'Login': 'Giriş Yap',
+    'Register': 'Kayıt Ol',
+    'Username': 'Kullanıcı Adı',
+    'Password': 'Şifre',
+    'Confirm Password': 'Şifreyi Onayla',
+    "Don't have an account?": 'Hesabınız yok mu?',
+    'Already have an account?': 'Zaten bir hesabınız var mı?',
 }
 po = polib.POFile()
 po.metadata = {

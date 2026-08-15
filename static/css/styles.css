@@ -71,7 +71,7 @@ header {
     var(--hero-image) center/cover no-repeat;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 860px) {
   .header-banner {
     height: 260px;
   }
@@ -183,7 +183,7 @@ header {
 }
 
 /* Position mobile language button to right of logo */
-@media (max-width: 760px) {
+@media (max-width: 860px) {
   .topbar { position: relative; }
   .mobile-lang {
     position: absolute;
@@ -195,7 +195,6 @@ header {
     visibility: visible !important;
   }
 }
-
 .brand-logo {
   display: inline-flex;
   flex-direction: column;
