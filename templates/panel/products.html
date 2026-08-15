@@ -21,6 +21,7 @@
                     <th>Kategori</th>
                     <th>Fiyat</th>
                     <th>Öne Çıkan</th>
+                    <th>Yeni</th>
                     <th>İşlemler</th>
                 </tr>
             </thead>
@@ -46,6 +47,13 @@
                         {% endif %}
                     </td>
                     <td>
+                        {% if product.is_new %}
+                            <span class="panel-badge panel-badge-yes">Evet</span>
+                        {% else %}
+                            <span class="panel-badge panel-badge-no">Hayır</span>
+                        {% endif %}
+                    </td>
+                    <td>
                         <div class="d-flex gap-8">
                             <a href="{% url 'panel:product-photos' product.pk %}" class="btn btn-secondary btn-panel-sm">Fotoğraf</a>
                             <a href="{% url 'panel:product-edit' product.pk %}" class="btn btn-secondary btn-panel-sm">Düzenle</a>
@@ -55,7 +63,7 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="7" style="text-align:center; padding:40px; color:var(--muted);">
+                    <td colspan="8" style="text-align:center; padding:40px; color:var(--muted);">
                         Henüz ürün yok. <a href="{% url 'panel:product-add' %}" style="color:var(--text);font-weight:700;">İlkini ekleyin</a>
                     </td>
                 </tr>

@@ -11,6 +11,7 @@
         {% for product in products %}
             <article class="card">
                 <a class="card-image-link" href="{% url 'catalog:product-detail' product.slug %}">
+                    {% if product.is_new %}<span class="product-badge">{% trans "New" %}</span>{% endif %}
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     {% else %}

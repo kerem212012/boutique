@@ -9,6 +9,7 @@
 
         <!-- Main image (click to zoom) -->
         <div class="product-main-image" id="mainImageWrap">
+            {% if product.is_new %}<span class="product-badge">{% trans "New" %}</span>{% endif %}
             {% if product.image %}
                 <img id="mainImg" src="{{ product.image.url }}" alt="{{ product.name }}">
             {% elif product.gallery.first %}
