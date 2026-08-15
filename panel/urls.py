@@ -6,6 +6,7 @@ app_name = 'panel'
 
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
+    path('site-settings/', views.site_settings, name='site-settings'),
 
     path('products/', views.product_list, name='products'),
     path('products/add/', views.product_add, name='product-add'),

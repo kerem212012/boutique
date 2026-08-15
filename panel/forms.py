@@ -1,6 +1,30 @@
 from django import forms
 
 from catalog.models import Category, Product, ProductImage
+from core.models import SiteSettings
+
+
+class SiteSettingsForm(forms.ModelForm):
+    class Meta:
+        model = SiteSettings
+        fields = (
+            'site_name', 'tagline', 'tagline_en', 'email', 'location',
+            'about_text', 'about_text_en', 'hero_image',
+            'new_arrivals_image', 'bottom_image',
+        )
+        widgets = {
+            'about_text': forms.Textarea(attrs={'rows': 4}),
+            'about_text_en': forms.Textarea(attrs={'rows': 4}),
+            'hero_image': forms.FileInput(attrs={'accept': 'image/*'}),
+            'new_arrivals_image': forms.FileInput(attrs={'accept': 'image/*'}),
+            'bottom_image': forms.FileInput(attrs={'accept': 'image/*'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            if not isinstance(field.widget, forms.FileInput):
+                field.widget.attrs['class'] = 'form-input'
 
 
 class CategoryForm(forms.ModelForm):

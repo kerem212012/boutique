@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}{% trans "Home" %} | Kalkan Nilüfer Butik{% endblock %}
+{% block title %}{% trans "Home" %} | {{ site_settings.site_name|default:"Kalkan Nilüfer Butik" }}{% endblock %}
 
 {% block content %}
 <section class="page categories-section">
@@ -15,7 +15,7 @@
                 {% if category.image %}
                     <img src="{{ category.image.url }}" alt="{{ category.name }}">
                 {% else %}
-                    <img src="https://images.unsplash.com/photo-1503342217505-b0a15f6b8e6a?auto=format&fit=crop&w=800&q=80" alt="{{ category.name }}">
+                    <span class="category-image-placeholder" aria-hidden="true"></span>
                 {% endif %}
                 <span>{{ category.name|capfirst }}</span>
             </a>
@@ -36,35 +36,7 @@
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     {% else %}
-                        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80" alt="{{ product.name }}">
-                    {% endif %}
-                    <div class="card-body">
-                        <h4>{{ product.name }}</h4>
-                        <p>{% if product.description %}{{ product.description|truncatewords:12 }}{% else %}{% trans "Description coming soon." %}{% endif %}</p>
-                    </div>
-                </article>
-            {% endfor %}
-            {% for product in products %}
-                <article class="card">
-                    {% if product.is_new %}<span class="product-badge">{% trans "New" %}</span>{% endif %}
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                    {% else %}
-                        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80" alt="{{ product.name }}">
-                    {% endif %}
-                    <div class="card-body">
-                        <h4>{{ product.name }}</h4>
-                        <p>{% if product.description %}{{ product.description|truncatewords:12 }}{% else %}{% trans "Description coming soon." %}{% endif %}</p>
-                    </div>
-                </article>
-            {% endfor %}
-            {% for product in products %}
-                <article class="card">
-                    {% if product.is_new %}<span class="product-badge">{% trans "New" %}</span>{% endif %}
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                    {% else %}
-                        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80" alt="{{ product.name }}">
+                        <div class="card-image-placeholder" aria-hidden="true"></div>
                     {% endif %}
                     <div class="card-body">
                         <h4>{{ product.name }}</h4>
@@ -76,18 +48,18 @@
     </div>
 </section>
 
-<section class="new-arrivals-banner">
+<section class="new-arrivals-banner{% if site_settings.new_arrivals_image %} has-image{% endif %}"{% if site_settings.new_arrivals_image %} style="--banner-image:url('{{ site_settings.new_arrivals_image.url }}')"{% endif %}>
     <div class="new-arrivals-banner-content">
         <h1>{% trans "New Arrivals" %}</h1>
         <p>{% trans "Completely new, with a weightless feel." %}</p>
-        <a class="new-arrivals-banner-button" href="{% url 'catalog:product-list' %}">{% trans "Try Now" %}</a>
+        <a class="new-arrivals-banner-button" href="{% url 'catalog:product-list' %}?new=1">{% trans "Try Now" %}</a>
     </div>
 </section>
 
 <section class="page new-arrivals-slider-section">
     <div class="section-title">
         <h3>{% trans "New Arrivals" %}</h3>
-        <a href="{% url 'catalog:product-list' %}">{% trans "View All" %}</a>
+        <a href="{% url 'catalog:product-list' %}?new=1">{% trans "View All" %}</a>
     </div>
     <div class="conveyor-wrap">
         <div class="conveyor-track">
@@ -97,35 +69,7 @@
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     {% else %}
-                        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80" alt="{{ product.name }}">
-                    {% endif %}
-                    <div class="card-body">
-                        <h4>{{ product.name }}</h4>
-                        <p>{% if product.description %}{{ product.description|truncatewords:12 }}{% else %}{% trans "Description coming soon." %}{% endif %}</p>
-                    </div>
-                </article>
-            {% endfor %}
-            {% for product in new_products %}
-                <article class="card">
-                    <span class="product-badge">{% trans "New" %}</span>
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                    {% else %}
-                        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80" alt="{{ product.name }}">
-                    {% endif %}
-                    <div class="card-body">
-                        <h4>{{ product.name }}</h4>
-                        <p>{% if product.description %}{{ product.description|truncatewords:12 }}{% else %}{% trans "Description coming soon." %}{% endif %}</p>
-                    </div>
-                </article>
-            {% endfor %}
-            {% for product in new_products %}
-                <article class="card">
-                    <span class="product-badge">{% trans "New" %}</span>
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                    {% else %}
-                        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80" alt="{{ product.name }}">
+                        <div class="card-image-placeholder" aria-hidden="true"></div>
                     {% endif %}
                     <div class="card-body">
                         <h4>{{ product.name }}</h4>
@@ -137,7 +81,9 @@
     </div>
 </section>
 
+{% if site_settings.bottom_image %}
 <section class="new-arrivals-after-photo" aria-label="{% trans 'New arrivals collection' %}">
-    <img src="https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=1800&q=85" alt="{% trans 'New arrivals fashion collection' %}">
+    <img src="{{ site_settings.bottom_image.url }}" alt="{% trans 'New arrivals fashion collection' %}">
 </section>
+{% endif %}
 {% endblock %}

@@ -3,8 +3,9 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from catalog.models import Category, Product, ProductImage
+from core.models import SiteSettings
 
-from .forms import CategoryForm, ProductForm, ProductImageUploadForm
+from .forms import CategoryForm, ProductForm, ProductImageUploadForm, SiteSettingsForm
 
 
 @staff_member_required
@@ -15,6 +16,19 @@ def dashboard(request):
         'featured_count': Product.objects.filter(is_featured=True).count(),
         'photo_count': ProductImage.objects.count(),
     })
+
+
+@staff_member_required
+def site_settings(request):
+    settings = SiteSettings.objects.first()
+    if settings is None:
+        settings = SiteSettings.objects.create()
+    form = SiteSettingsForm(request.POST or None, request.FILES or None, instance=settings)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, 'Site ayarları güncellendi.')
+        return redirect('panel:site-settings')
+    return render(request, 'panel/site_settings.html', {'form': form, 'settings': settings})
 
 
 # ── Products ──────────────────────────────────────────────────────────────────

@@ -631,6 +631,9 @@
         <a href="{% url 'panel:categories' %}" class="{% block nav_categories %}{% endblock %}">
             Kategoriler
         </a>
+        <a href="{% url 'panel:site-settings' %}" class="{% block nav_settings %}{% endblock %}">
+            Site Ayarları
+        </a>
     </nav>
     <div class="sidebar-footer">
         <a href="{% url 'home' %}" target="_blank">&#8599; Siteyi Aç</a>
@@ -673,8 +676,8 @@
         <a href="{% url 'panel:categories' %}" class="{% block mnav_categories %}{% endblock %}">
             <span class="bnav-icon">&#9670;</span>Kategoriler
         </a>
-        <a href="{% url 'home' %}" target="_blank">
-            <span class="bnav-icon">&#8599;</span>Site
+        <a href="{% url 'panel:site-settings' %}" class="{% block mnav_settings %}{% endblock %}">
+            <span class="bnav-icon">&#9881;</span>Ayarlar
         </a>
     </div>
 </nav>

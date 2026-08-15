@@ -7,9 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelectorAll('.conveyor-wrap').forEach(function (conveyor) {
         const cards = Array.from(conveyor.querySelectorAll('.card'));
-        if (!cards.length) return;
+        if (cards.length < 2) return;
 
-        const originalCardCount = Math.floor(cards.length / 3);
         let current = 0;
         const delay = 2200;
         const duration = 700;
@@ -46,18 +45,13 @@ document.addEventListener('DOMContentLoaded', function () {
             smoothScrollTo(left, function () {
                 current = index;
                 isAnimating = false;
-
-                if (current >= originalCardCount) {
-                    conveyor.scrollLeft = cards[current - originalCardCount].offsetLeft;
-                    current -= originalCardCount;
-                }
             });
         }
 
         function nextCard() {
             if (isAnimating) return;
 
-            scrollToCard(current + 1);
+            scrollToCard((current + 1) % cards.length);
         }
 
         autoScrollTimer = setInterval(nextCard, delay);

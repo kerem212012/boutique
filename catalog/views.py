@@ -5,6 +5,11 @@ from .models import Product
 
 def product_list(request):
     products = Product.objects.select_related('category').order_by('-created_at')
+    category_slug = request.GET.get('category')
+    if category_slug:
+        products = products.filter(category__slug=category_slug)
+    if request.GET.get('new') == '1':
+        products = products.filter(is_new=True)
     return render(request, 'catalog/product_list.html', {'products': products})
 
 

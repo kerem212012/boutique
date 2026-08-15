@@ -22,6 +22,29 @@ class CatalogPageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.product.name)
 
+    def test_product_list_filters_by_category(self):
+        other_category = Category.objects.create(name='Other', slug='other')
+        other_product = Product.objects.create(
+            name='Other Product', slug='other-product', category=other_category, price='10.00'
+        )
+
+        response = self.client.get(reverse('catalog:product-list'), {'category': 'test-category'})
+
+        self.assertContains(response, self.product.name)
+        self.assertNotContains(response, other_product.name)
+
+    def test_product_list_filters_new_products(self):
+        self.product.is_new = True
+        self.product.save(update_fields=('is_new',))
+        Product.objects.create(
+            name='Old Product', slug='old-product', category=self.category, price='10.00'
+        )
+
+        response = self.client.get(reverse('catalog:product-list'), {'new': '1'})
+
+        self.assertContains(response, self.product.name)
+        self.assertNotContains(response, 'Old Product')
+
     def test_product_list_page_in_english(self):
         activate('en')
         response = self.client.get(reverse('catalog:product-list'))

@@ -1,0 +1,46 @@
+{% extends 'panel/base.html' %}
+
+{% block title %}Site Ayarları{% endblock %}
+{% block page_title %}Site Ayarları{% endblock %}
+{% block nav_settings %}active{% endblock %}
+{% block mnav_settings %}active{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data" style="max-width:760px;">
+    {% csrf_token %}
+    <div class="panel-card panel-card-body">
+        <div class="panel-section-title">Genel Bilgiler</div>
+        <div class="panel-form-grid">
+            <div class="panel-form-group"><label>Site Adı</label>{{ form.site_name }}</div>
+            <div class="panel-form-group"><label>E-posta</label>{{ form.email }}</div>
+            <div class="panel-form-group"><label>Konum</label>{{ form.location }}</div>
+        </div>
+    </div>
+
+    <div class="panel-card panel-card-body mt-16">
+        <div class="panel-section-title">Metinler</div>
+        <div class="panel-form-grid">
+            <div class="panel-form-group"><label>Slogan (TR)</label>{{ form.tagline }}</div>
+            <div class="panel-form-group"><label>Slogan (EN)</label>{{ form.tagline_en }}</div>
+            <div class="panel-form-group"><label>Hakkımızda (TR)</label>{{ form.about_text }}</div>
+            <div class="panel-form-group"><label>Hakkımızda (EN)</label>{{ form.about_text_en }}</div>
+        </div>
+    </div>
+
+    <div class="panel-card panel-card-body mt-16">
+        <div class="panel-section-title">Ana Sayfa Görselleri</div>
+        {% for field in form %}
+            {% if field.name == 'hero_image' or field.name == 'new_arrivals_image' or field.name == 'bottom_image' %}
+                <div class="panel-form-group mt-16">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}<div class="panel-form-errors">{{ field.errors }}</div>{% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    {% if form.errors %}<div class="panel-form-errors mt-16">{{ form.errors }}</div>{% endif %}
+    <button type="submit" class="btn btn-primary mt-20">Kaydet</button>
+</form>
+{% endblock %}
