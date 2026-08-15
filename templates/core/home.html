@@ -32,6 +32,7 @@
         <div class="conveyor-track">
             {% for product in products %}
                 <article class="card">
+                    {% if product.is_new %}<span class="product-badge">{% trans "New" %}</span>{% endif %}
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     {% else %}
@@ -45,6 +46,7 @@
             {% endfor %}
             {% for product in products %}
                 <article class="card">
+                    {% if product.is_new %}<span class="product-badge">{% trans "New" %}</span>{% endif %}
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     {% else %}
@@ -58,6 +60,7 @@
             {% endfor %}
             {% for product in products %}
                 <article class="card">
+                    {% if product.is_new %}<span class="product-badge">{% trans "New" %}</span>{% endif %}
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     {% else %}
@@ -90,6 +93,7 @@
         <div class="conveyor-track">
             {% for product in new_products %}
                 <article class="card">
+                    <span class="product-badge">{% trans "New" %}</span>
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     {% else %}
@@ -103,6 +107,7 @@
             {% endfor %}
             {% for product in new_products %}
                 <article class="card">
+                    <span class="product-badge">{% trans "New" %}</span>
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     {% else %}
@@ -116,6 +121,7 @@
             {% endfor %}
             {% for product in new_products %}
                 <article class="card">
+                    <span class="product-badge">{% trans "New" %}</span>
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     {% else %}

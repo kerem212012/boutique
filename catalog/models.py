@@ -57,6 +57,7 @@ class Product(models.Model):
     sizes = models.JSONField(default=list, blank=True)
     colors = models.JSONField(default=list, blank=True)
     is_featured = models.BooleanField(default=False)
+    is_new = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     @property

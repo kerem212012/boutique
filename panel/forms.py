@@ -42,7 +42,7 @@ class ProductForm(forms.ModelForm):
             'name_tr', 'name_en',
             'description_tr', 'description_en',
             'category', 'price', 'image',
-            'is_featured', 'slug',
+            'is_featured', 'is_new', 'slug',
         )
 
     def __init__(self, *args, **kwargs):
@@ -50,7 +50,7 @@ class ProductForm(forms.ModelForm):
         self.fields['slug'].required = False
         self.fields['slug'].help_text = 'Boş bırakın — otomatik oluşturulur'
         for name, field in self.fields.items():
-            if name not in ('is_featured', 'image'):
+            if name not in ('is_featured', 'is_new', 'image'):
                 field.widget.attrs['class'] = 'form-input'
         if self.instance and self.instance.pk:
             self.fields['sizes_text'].initial = ', '.join(self.instance.sizes or [])

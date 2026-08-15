@@ -91,9 +91,15 @@
                 {% if form.slug.errors %}<div class="panel-form-errors">{{ form.slug.errors }}</div>{% endif %}
             </div>
             <div class="panel-form-group" style="justify-content:flex-end;">
-                <div class="panel-form-check">
-                    {{ form.is_featured }}
-                    <label for="{{ form.is_featured.id_for_label }}">Öne Çıkan Ürün</label>
+                <div class="d-flex gap-8 flex-wrap">
+                    <div class="panel-form-check">
+                        {{ form.is_featured }}
+                        <label for="{{ form.is_featured.id_for_label }}">Öne Çıkan Ürün</label>
+                    </div>
+                    <div class="panel-form-check">
+                        {{ form.is_new }}
+                        <label for="{{ form.is_new.id_for_label }}">Yeni Ürün</label>
+                    </div>
                 </div>
             </div>
         </div>

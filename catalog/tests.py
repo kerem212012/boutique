@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from django.utils.translation import activate
+from django.utils.translation import activate, override
 
 from cart.models import CartItem
 
@@ -34,6 +34,16 @@ class CatalogPageTests(TestCase):
         self.assertContains(response, 'Katalog')
         self.assertContains(response, 'Detayları Gör')
         self.assertContains(response, self.product.name)
+
+    def test_new_product_shows_badge(self):
+        self.product.is_new = True
+        self.product.save(update_fields=('is_new',))
+
+        with override('en'):
+            response = self.client.get(reverse('catalog:product-list'))
+
+        self.assertContains(response, 'product-badge')
+        self.assertContains(response, 'New')
 
     def test_product_detail_shows_options_and_adds_selected_variant(self):
         self.product.sizes = ['S', 'M']
