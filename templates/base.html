@@ -97,6 +97,12 @@
                 <p>{{ site_settings.email|default:'hello@butikmail.local' }}</p>
                 <p>{{ site_settings.location|default:"Kalkan, Antalya" }}</p>
             </div>
+            <div class="footer-col footer-legal">
+                <h4>{% if LANGUAGE_CODE == 'en' %}Legal{% else %}Yasal{% endif %}</h4>
+                <a href="{% url 'privacy-policy' %}">{% if LANGUAGE_CODE == 'en' %}Privacy Policy{% else %}Gizlilik Politikası{% endif %}</a>
+                <a href="{% url 'terms' %}">{% if LANGUAGE_CODE == 'en' %}Terms of Use{% else %}Kullanım Koşulları{% endif %}</a>
+                <a href="{% url 'cookie-policy' %}">{% if LANGUAGE_CODE == 'en' %}Cookie Policy{% else %}Çerez Politikası{% endif %}</a>
+            </div>
         </div>
         <div class="footer-bottom">
             <p>© {% now "Y" %} {{ site_settings.site_name|default:"Kalkan Nilüfer Butik" }}. {% trans "All rights reserved." %}</p>

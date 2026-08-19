@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% if LANGUAGE_CODE == 'en' %}Terms of Use{% else %}Kullanım Koşulları{% endif %} | {{ site_settings.site_name|default:'Kalkan Nilüfer Butik' }}{% endblock %}
+
+{% block content %}
+<article class="legal-page">
+    <h1>{% if LANGUAGE_CODE == 'en' %}Terms of Use{% else %}Kullanım Koşulları{% endif %}</h1>
+    <p class="legal-updated">{% if LANGUAGE_CODE == 'en' %}Last updated: 19 August 2026{% else %}Son güncelleme: 19 Ağustos 2026{% endif %}</p>
+    {% if LANGUAGE_CODE == 'en' %}
+        <p>By using this website, you agree to these terms. Please read them before creating an account or placing an order.</p>
+        <h2>Products and orders</h2>
+        <p>Product descriptions, images and availability are presented as accurately as possible. An order is accepted when we confirm it. We may contact you if an item is unavailable or an order cannot be fulfilled.</p>
+        <h2>Prices and payment</h2>
+        <p>Prices are shown on the product and checkout pages. The applicable total is the amount displayed at checkout. Payment instructions for bank transfer orders are provided during checkout.</p>
+        <h2>Accounts and acceptable use</h2>
+        <p>You are responsible for keeping your account details confidential and for activity under your account. Do not use the website unlawfully, interfere with its operation or submit inaccurate information.</p>
+        <h2>Contact</h2>
+        <p>Questions about an order or these terms can be sent to the contact address displayed in the footer.</p>
+    {% else %}
+        <p>Bu web sitesini kullanarak bu koşulları kabul etmiş olursunuz. Hesap oluşturmadan veya sipariş vermeden önce lütfen okuyun.</p>
+        <h2>Ürünler ve siparişler</h2>
+        <p>Ürün açıklamaları, görselleri ve stok durumu mümkün olduğunca doğru sunulur. Sipariş, tarafımızca onaylandığında kabul edilir. Ürün bulunamaması veya siparişin karşılanamaması halinde sizinle iletişime geçebiliriz.</p>
+        <h2>Fiyatlar ve ödeme</h2>
+        <p>Fiyatlar ürün ve ödeme sayfalarında gösterilir. Geçerli toplam tutar ödeme adımında görüntülenen tutardır. Havale siparişleri için ödeme bilgileri ödeme sırasında sunulur.</p>
+        <h2>Hesaplar ve uygun kullanım</h2>
+        <p>Hesap bilgilerinizin gizliliğinden ve hesabınız üzerinden yapılan işlemlerden siz sorumlusunuz. Siteyi hukuka aykırı kullanmayın, çalışmasını engellemeyin ve yanlış bilgi göndermeyin.</p>
+        <h2>İletişim</h2>
+        <p>Siparişler veya bu koşullar hakkındaki sorularınızı footer bölümünde yer alan iletişim adresine gönderebilirsiniz.</p>
+    {% endif %}
+</article>
+{% endblock %}

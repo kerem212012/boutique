@@ -5,6 +5,28 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Password toggle functionality
+    document.querySelectorAll('.password-toggle').forEach(function (button) {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('data-target');
+            const passwordInput = document.getElementById(targetId);
+            
+            if (passwordInput) {
+                const isPassword = passwordInput.type === 'password';
+                passwordInput.type = isPassword ? 'text' : 'password';
+                
+                // Toggle eye icon visibility
+                const openEye = this.querySelector('.eye-icon');
+                const closedEye = this.querySelector('.eye-closed-icon');
+                if (openEye && closedEye) {
+                    openEye.classList.toggle('hidden');
+                    closedEye.classList.toggle('hidden');
+                }
+            }
+        });
+    });
+
     document.querySelectorAll('.conveyor-wrap').forEach(function (conveyor) {
         const cards = Array.from(conveyor.querySelectorAll('.card'));
         if (cards.length < 2) return;

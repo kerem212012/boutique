@@ -12,3 +12,12 @@ def home(request):
         'categories': categories,
     }
     return render(request, 'core/home.html', context)
+
+
+def legal_page(request, page):
+    pages = {
+        'privacy': 'core/privacy_policy.html',
+        'terms': 'core/terms.html',
+        'cookies': 'core/cookie_policy.html',
+    }
+    return render(request, pages[page])

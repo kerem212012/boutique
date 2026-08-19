@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% if LANGUAGE_CODE == 'en' %}Cookie Policy{% else %}Çerez Politikası{% endif %} | {{ site_settings.site_name|default:'Kalkan Nilüfer Butik' }}{% endblock %}
+
+{% block content %}
+<article class="legal-page">
+    <h1>{% if LANGUAGE_CODE == 'en' %}Cookie Policy{% else %}Çerez Politikası{% endif %}</h1>
+    <p class="legal-updated">{% if LANGUAGE_CODE == 'en' %}Last updated: 19 August 2026{% else %}Son güncelleme: 19 Ağustos 2026{% endif %}</p>
+    {% if LANGUAGE_CODE == 'en' %}
+        <p>Cookies are small text files stored by your browser. Kalkan Nilüfer Butik uses them to keep the website working and remember your preferences.</p>
+        <h2>Essential cookies</h2>
+        <p>Session, security and language cookies are necessary for features such as login, shopping cart, checkout and language selection. They cannot be disabled through this website.</p>
+        <h2>Managing cookies</h2>
+        <p>You can delete or block cookies through your browser settings. Blocking essential cookies may prevent parts of the website from working correctly.</p>
+        <h2>Questions</h2>
+        <p>For questions about cookies or privacy, please use the contact details displayed on this website.</p>
+    {% else %}
+        <p>Çerezler, tarayıcınız tarafından saklanan küçük metin dosyalarıdır. Kalkan Nilüfer Butik, sitenin çalışması ve tercihlerin hatırlanması için çerezleri kullanır.</p>
+        <h2>Zorunlu çerezler</h2>
+        <p>Oturum, güvenlik ve dil çerezleri; giriş, alışveriş sepeti, ödeme ve dil seçimi gibi özellikler için gereklidir. Bu çerezler site üzerinden devre dışı bırakılamaz.</p>
+        <h2>Çerezleri yönetme</h2>
+        <p>Çerezleri tarayıcı ayarlarınızdan silebilir veya engelleyebilirsiniz. Zorunlu çerezleri engellemek, sitenin bazı bölümlerinin doğru çalışmasını önleyebilir.</p>
+        <h2>Sorularınız</h2>
+        <p>Çerezler veya gizlilik hakkında sorularınız için sitede yer alan iletişim bilgilerini kullanabilirsiniz.</p>
+    {% endif %}
+</article>
+{% endblock %}

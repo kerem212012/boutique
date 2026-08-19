@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.i18n import i18n_patterns
 
-from core.views import home
+from core.views import home, legal_page
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
@@ -29,6 +29,9 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path('', home, name='home'),
+    path('privacy-policy/', legal_page, {'page': 'privacy'}, name='privacy-policy'),
+    path('terms/', legal_page, {'page': 'terms'}, name='terms'),
+    path('cookie-policy/', legal_page, {'page': 'cookies'}, name='cookie-policy'),
     path('catalog/', include('catalog.urls', namespace='catalog')),
     path('cart/', include('cart.urls', namespace='cart')),
     path('orders/', include('orders.urls', namespace='orders')),

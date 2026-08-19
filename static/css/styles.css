@@ -1268,7 +1268,80 @@ header {
   color: var(--text);
 }
 
-.auth-form button {
+/* Password field wrapper with toggle button */
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-field input {
+  width: 100%;
+  padding-right: 44px; /* space for toggle button */
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--muted);
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  min-width: 44px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.password-toggle:hover {
+  color: var(--text);
+}
+
+.password-toggle:active {
+  opacity: 0.7;
+}
+
+.password-toggle svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  pointer-events: none;
+}
+
+.eye-icon,
+.eye-closed-icon {
+  transition: opacity 0.2s ease;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .password-field input {
+    padding-right: 50px;
+  }
+
+  .password-toggle {
+    width: 48px;
+    height: 48px;
+    right: 8px;
+  }
+
+  .password-toggle svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.auth-form button[type="submit"] {
   width: 100%;
   margin-top: 10px;
   padding: 14px 18px;
@@ -1281,7 +1354,7 @@ header {
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.auth-form button:hover {
+.auth-form button[type="submit"]:hover {
   background: var(--accent);
   transform: translateY(-1px);
 }
@@ -1397,6 +1470,41 @@ header {
   padding: 28px;
 }
 
+.legal-page {
+  max-width: 860px;
+  margin: 48px auto 72px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: clamp(24px, 5vw, 56px);
+}
+
+.legal-page h1 {
+  margin: 0 0 12px;
+  color: var(--accent);
+}
+
+.legal-page h2 {
+  margin: 32px 0 10px;
+  color: var(--accent);
+  font-size: 1.15rem;
+}
+
+.legal-page p,
+.legal-page li {
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.legal-page ul {
+  padding-left: 22px;
+}
+
+.legal-updated {
+  margin-bottom: 32px;
+  font-size: 0.9rem;
+}
+
 footer {
   background: #f3eaea;
   border-top: 1px solid rgba(92,52,95,0.15);
@@ -1405,7 +1513,7 @@ footer {
 
 .footer-inner {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px;
   padding-bottom: 20px;
 }

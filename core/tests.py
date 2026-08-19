@@ -28,3 +28,9 @@ class HomePageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Öne Çıkan Parçalar')
         self.assertContains(response, 'Yeni Ürünler')
+
+    def test_legal_pages_are_public(self):
+        for page_name in ('privacy-policy', 'terms', 'cookie-policy'):
+            with self.subTest(page_name=page_name):
+                response = self.client.get(reverse(page_name))
+                self.assertEqual(response.status_code, 200)
