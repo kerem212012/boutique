@@ -1,11 +1,13 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from django.core.mail import send_mail
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 
-from .forms import UserProfileForm
+from .forms import RegistrationForm, UserProfileForm
 from .models import UserProfile
 
 
@@ -30,30 +32,24 @@ def register_view(request):
         return redirect('home')
 
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            subject = str(_('Welcome to Kalkan Nilüfer Butik'))
+            message = render_to_string('users/registration_success_email.txt', {
+                'user': user,
+            })
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [user.email],
+                fail_silently=True,
+            )
             login(request, user)
-            messages.success(request, 'Registration completed successfully.')
+            messages.success(request, _('Registration completed successfully.'))
             return redirect('home')
     else:
-        form = UserCreationForm()
-
-    return render(request, 'users/register.html', {'form': form})
-
-
-def register_view(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, 'Registration completed successfully.')
-            return redirect('home')
-    else:
-        form = UserCreationForm()
+        form = RegistrationForm()
 
     return render(request, 'users/register.html', {'form': form})

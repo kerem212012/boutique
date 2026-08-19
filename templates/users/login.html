@@ -30,6 +30,7 @@
         </div>
         <button type="submit">{% trans "Login" %}</button>
     </form>
+    <p><a href="{% url 'users:password_reset' %}">{% trans "Forgot your password?" %}</a></p>
     <p>{% trans "Don’t have an account?" %} <a href="{% url 'users:register' %}">{% trans "Register" %}</a></p>
 </section>
 {% endblock %}

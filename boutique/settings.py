@@ -125,8 +125,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = 'tr'
-
 TIME_ZONE = 'Europe/Istanbul'
 
 USE_I18N = True
@@ -147,6 +145,20 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+# Password reset emails. For Gmail, EMAIL_HOST_PASSWORD must be an app
+# password, not the regular Google account password.
+EMAIL_BACKEND = env(
+    'EMAIL_BACKEND',
+    default='django.core.mail.backends.smtp.EmailBackend',
+)
+EMAIL_HOST = env('EMAIL_HOST', default='smtp.gmail.com')
+EMAIL_PORT = env.int('EMAIL_PORT', default=587)
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
+EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='').replace(' ', '')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default=EMAIL_HOST_USER)
+PASSWORD_RESET_TIMEOUT = env.int('PASSWORD_RESET_TIMEOUT', default=3600)
 
 BANK_TRANSFER_IBAN = env('BANK_TRANSFER_IBAN', default='')
 BANK_TRANSFER_RECIPIENT = env('BANK_TRANSFER_RECIPIENT', default='Kalkan Nilüfer Butik')

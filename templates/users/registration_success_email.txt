@@ -1,0 +1,9 @@
+{% load i18n %}{% blocktrans with username=user.username %}Hello {{ username }},
+
+Your account at Kalkan Nilüfer Butik has been created successfully.
+
+You can now sign in, browse the catalog, save your contact details, and track your orders.
+
+Thank you for joining us!
+
+Kalkan Nilüfer Butik{% endblocktrans %}
