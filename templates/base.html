@@ -95,7 +95,15 @@
             <div class="footer-col footer-contact">
                 <h4>{% trans "Contact" %}</h4>
                 <p>{{ site_settings.email|default:'hello@butikmail.local' }}</p>
-                <p>{{ site_settings.location|default:"Kalkan, Antalya" }}</p>
+                <div class="footer-social" aria-label="Social media links">
+                    <a href="https://instagram.com/kalkanniluferbutik" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.25" fill="currentColor"/></svg>
+                    </a>
+                    <a href="https://www.facebook.com/kalkanniluferbutik" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">f</a>
+                    <a href="https://wa.me/905413784734" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.5L3.5 20.5l1.5-4.2A8.5 8.5 0 1 1 20.5 11.6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.7 7.8c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.7 1.7c.1.2.1.4-.1.6l-.6.7c.5 1 1.3 1.8 2.3 2.3l.7-.6c.2-.2.4-.2.6-.1l1.7.7c.3.1.4.3.4.5v.5c0 .3-.1.5-.4.7-.4.3-1 .4-1.5.2-2.7-.7-5.1-3.1-5.8-5.8-.2-.5-.1-1.1.3-1.4Z" fill="currentColor"/></svg>
+                    </a>
+                </div>
             </div>
             <div class="footer-col footer-legal">
                 <h4>{% if LANGUAGE_CODE == 'en' %}Legal{% else %}Yasal{% endif %}</h4>
@@ -104,6 +112,36 @@
                 <a href="{% url 'cookie-policy' %}">{% if LANGUAGE_CODE == 'en' %}Cookie Policy{% else %}Çerez Politikası{% endif %}</a>
             </div>
         </div>
+        <address class="footer-addresses-bottom">
+            <div class="footer-location">
+                <a class="footer-map-label" href="https://www.google.com/maps/search/?api=1&query=Kalkan+Mahallesi+Cumhuriyet+Caddesi+Kalkan+Antalya" target="_blank" rel="noopener noreferrer">
+                    Kalkan Mah. Cumhuriyet Cad., Kalkan - Antalya<br>
+                    <span>(Migros ve Makro Market yanı)</span>
+                </a>
+                <div class="footer-map">
+                    <iframe
+                        src="https://www.google.com/maps?q=Kalkan%20Mahallesi%20Cumhuriyet%20Caddesi%20Kalkan%20Antalya&output=embed"
+                        title="Kalkan Mahallesi Cumhuriyet Caddesi map"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+            <div class="footer-location">
+                <a class="footer-map-label" href="https://www.google.com/maps/search/?api=1&query=Club+Patara+Evleri+Patara+Prince+Otel+Zeytinlik+Caddesi+No+26+Kalkan+Kas+Antalya" target="_blank" rel="noopener noreferrer">
+                    Club Patara Evleri / Patara Prince Otel<br>
+                    Zeytinlik Cd. No: 26, Kalkan / Kaş - Antalya
+                </a>
+                <div class="footer-map">
+                    <iframe
+                        src="https://www.google.com/maps?q=Club%20Patara%20Evleri%20Patara%20Prince%20Otel%20Zeytinlik%20Caddesi%20No%2026%20Kalkan%20Kas%20Antalya&output=embed"
+                        title="Club Patara Evleri map"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </address>
         <div class="footer-bottom">
             <p>© {% now "Y" %} {{ site_settings.site_name|default:"Kalkan Nilüfer Butik" }}. {% trans "All rights reserved." %}</p>
         </div>
