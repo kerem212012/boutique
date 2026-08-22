@@ -1602,10 +1602,17 @@ footer {
 }
 
 .footer-map-label {
+  display: block;
   margin: 0 0 14px;
+  padding-left: 150px;
   color: var(--muted) !important;
-  text-align: center;
+  text-align: left;
   line-height: 1.45 !important;
+}
+
+.footer-location {
+  min-width: 0;
+  padding-left: 0;
 }
 
 .footer-addresses {
@@ -1673,6 +1680,11 @@ footer {
 
   .grid {
     grid-template-columns: 1fr;
+  }
+
+  .footer-map-label {
+    padding-left: 0;
+    text-align: center;
   }
 }
 
