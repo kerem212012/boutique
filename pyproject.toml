@@ -8,9 +8,13 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
+    "celery[redis]>=5.4,<6.0",
+    "dj-database-url>=2.3",
     "django>=5.2,<6.0",
     "environs>=15.0.1",
+    "gunicorn>=23.0",
     "polib>=1.2.0",
+    "psycopg[binary]>=3.2",
     "pillow>=12.3.0",
 ]
 

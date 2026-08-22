@@ -1,6 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
+from .forms import QueuedPasswordResetForm
 from .views import profile_view, register_view
 
 app_name = 'users'
@@ -13,6 +14,7 @@ urlpatterns = [
     path(
         'password-reset/',
         auth_views.PasswordResetView.as_view(
+            form_class=QueuedPasswordResetForm,
             template_name='users/password_reset_form.html',
             email_template_name='users/password_reset_email.txt',
             subject_template_name='users/password_reset_subject.txt',

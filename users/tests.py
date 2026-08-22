@@ -53,6 +53,10 @@ class UserProfileTests(TestCase):
 
 
 @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
+@override_settings(
+    EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+    CELERY_TASK_ALWAYS_EAGER=True,
+)
 class RegistrationTests(TestCase):
     def test_registration_saves_email(self):
         response = self.client.post(reverse('users:register'), {
@@ -82,6 +86,10 @@ class RegistrationTests(TestCase):
 
 
 @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
+@override_settings(
+    EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+    CELERY_TASK_ALWAYS_EAGER=True,
+)
 class PasswordResetTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(

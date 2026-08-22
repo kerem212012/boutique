@@ -2,13 +2,13 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 
 from .forms import RegistrationForm, UserProfileForm
 from .models import UserProfile
+from .tasks import send_email
 
 
 @login_required
@@ -39,12 +39,11 @@ def register_view(request):
             message = render_to_string('users/registration_success_email.txt', {
                 'user': user,
             })
-            send_mail(
+            send_email.delay(
                 subject,
                 message,
                 settings.DEFAULT_FROM_EMAIL,
                 [user.email],
-                fail_silently=True,
             )
             login(request, user)
             messages.success(request, _('Registration completed successfully.'))

@@ -21,9 +21,10 @@ The interface and catalog content support Turkish and English. Turkish is the de
 
 - Python 3.12 or newer
 - Django 5.2
-- SQLite for the current database
+- PostgreSQL via Docker Compose (SQLite remains the local default without `.env` database settings)
 - Pillow for uploaded images
 - environs / python-dotenv for `.env` configuration
+- Celery and Redis for asynchronous email delivery
 - Django templates, CSS, and vanilla JavaScript
 - uv for dependency and environment management
 
@@ -57,6 +58,16 @@ uv run python manage.py runserver
 
 The storefront is then available at `http://127.0.0.1:8000/`.
 
+## Docker Compose
+
+The included Compose configuration starts Django and PostgreSQL with persistent database storage. The local `.env` contains generated database credentials and is ignored by Git.
+
+```bash
+docker compose up --build
+```
+
+The storefront is then available at `http://127.0.0.1:8000/`. Stop the services with `docker compose down`; use `docker compose down -v` only when the PostgreSQL data volume should also be removed.
+
 Useful local URLs:
 
 - `/tr/` — Turkish storefront
@@ -78,6 +89,10 @@ Copy `.env.example` to `.env`. Never commit `.env`; it can contain the Django se
 | `ALLOWED_HOSTS` | Comma-separated accepted hostnames | `127.0.0.1,localhost` |
 | `LANGUAGE_CODE` | Default interface language | `tr` |
 | `STATIC_URL` | Public prefix for static assets | `/static/` |
+| `POSTGRES_DB` | PostgreSQL database name used by Compose | Generate a local value |
+| `POSTGRES_USER` | PostgreSQL user used by Compose | Generate a local value |
+| `POSTGRES_PASSWORD` | PostgreSQL password used by Compose | Generate a unique value |
+| `DATABASE_URL` | Django database connection URL | PostgreSQL URL in Compose |
 | `EMAIL_BACKEND` | Django email backend | SMTP backend |
 | `EMAIL_HOST` | SMTP server | `smtp.gmail.com` |
 | `EMAIL_PORT` | SMTP port | `587` |
@@ -88,6 +103,8 @@ Copy `.env.example` to `.env`. Never commit `.env`; it can contain the Django se
 | `PASSWORD_RESET_TIMEOUT` | Reset-link lifetime in seconds | `3600` |
 | `BANK_TRANSFER_IBAN` | IBAN shown at checkout | Store bank account IBAN |
 | `BANK_TRANSFER_RECIPIENT` | Bank transfer recipient | Account holder name |
+| `CELERY_BROKER_URL` | Redis queue connection | `redis://redis:6379/0` |
+| `CELERY_RESULT_BACKEND` | Celery task result storage | `redis://redis:6379/1` |
 
 Generate a Django secret key, for example, with:
 
