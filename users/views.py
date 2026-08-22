@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
@@ -34,7 +35,10 @@ def register_view(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            # UserProfile is created by a post_save signal. Keep both records in
+            # one transaction so a profile failure cannot leave an orphan user.
+            with transaction.atomic():
+                user = form.save()
             subject = str(_('Welcome to Kalkan Nilüfer Butik'))
             message = render_to_string('users/registration_success_email.txt', {
                 'user': user,

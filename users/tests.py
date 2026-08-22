@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.contrib.auth import get_user_model
 from django.core import mail
 from django.test import override_settings
@@ -52,12 +54,18 @@ class UserProfileTests(TestCase):
         self.assertNotIn('_auth_user_id', self.client.session)
 
 
-@override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
 @override_settings(
     EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
     CELERY_TASK_ALWAYS_EAGER=True,
 )
 class RegistrationTests(TestCase):
+    valid_registration = {
+        'username': 'newuser',
+        'email': 'newuser@example.com',
+        'password1': 'StrongPass742!',
+        'password2': 'StrongPass742!',
+    }
+
     def test_registration_saves_email(self):
         response = self.client.post(reverse('users:register'), {
             'username': 'newuser',
@@ -84,8 +92,50 @@ class RegistrationTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(User.objects.filter(username='newuser').exists())
 
+    def test_invalid_registration_never_creates_records(self):
+        User.objects.create_user(
+            username='existing',
+            email='existing@example.com',
+            password='StrongPass742!',
+        )
+        invalid_values = (
+            {'username': ''},
+            {'username': 'existing'},
+            {'email': ''},
+            {'email': 'not-an-email'},
+            {'email': 'EXISTING@example.com'},
+            {'password1': '', 'password2': ''},
+            {'password1': 'short', 'password2': 'short'},
+            {'password1': 'password', 'password2': 'password'},
+            {'password1': '123456789', 'password2': '123456789'},
+            {'password1': 'newuser2026!', 'password2': 'newuser2026!'},
+            {'password2': 'DifferentPass742!'},
+        )
 
-@override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
+        for overrides in invalid_values:
+            with self.subTest(overrides=overrides):
+                payload = self.valid_registration | overrides
+                users_before = User.objects.count()
+                profiles_before = UserProfile.objects.count()
+
+                response = self.client.post(reverse('users:register'), payload)
+
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(User.objects.count(), users_before)
+                self.assertEqual(UserProfile.objects.count(), profiles_before)
+                self.assertNotIn('_auth_user_id', self.client.session)
+                self.assertEqual(mail.outbox, [])
+
+    def test_profile_creation_failure_rolls_back_user(self):
+        with patch('users.models.UserProfile.objects.create', side_effect=RuntimeError('profile failure')):
+            with self.assertRaises(RuntimeError):
+                self.client.post(reverse('users:register'), self.valid_registration)
+
+        self.assertFalse(User.objects.filter(username='newuser').exists())
+        self.assertFalse(UserProfile.objects.exists())
+        self.assertEqual(mail.outbox, [])
+
+
 @override_settings(
     EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
     CELERY_TASK_ALWAYS_EAGER=True,
