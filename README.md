@@ -92,7 +92,7 @@ Copy `.env.example` to `.env`. Never commit `.env`; it can contain the Django se
 | `POSTGRES_DB` | PostgreSQL database name used by Compose | Generate a local value |
 | `POSTGRES_USER` | PostgreSQL user used by Compose | Generate a local value |
 | `POSTGRES_PASSWORD` | PostgreSQL password used by Compose | Generate a unique value |
-| `DATABASE_URL` | Django database connection URL | PostgreSQL URL in Compose |
+| `DATABASE_URL` | Django database connection URL used when `DEBUG=False`; debug mode always uses SQLite | PostgreSQL URL in Compose |
 | `EMAIL_BACKEND` | Django email backend | SMTP backend |
 | `EMAIL_HOST` | SMTP server | `smtp.gmail.com` |
 | `EMAIL_PORT` | SMTP port | `587` |
