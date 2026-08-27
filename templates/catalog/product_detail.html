@@ -65,10 +65,10 @@
                 <fieldset>
                     <legend>{% trans "Color" %}</legend>
                     <div class="option-list">
-                        {% for color in product.colors %}
+                        {% for color in product.color_options %}
                             <label class="option-choice">
-                                <input type="radio" name="color" value="{{ color }}" required>
-                                <span>{{ color }}</span>
+                                <input type="radio" name="color" value="{{ color.0 }}" required>
+                                <span>{{ color.1 }}</span>
                             </label>
                         {% endfor %}
                     </div>

@@ -86,3 +86,15 @@ class CatalogPageTests(TestCase):
         item = CartItem.objects.get(product=self.product)
         self.assertEqual(item.selected_size, 'M')
         self.assertEqual(item.selected_color, 'Black')
+
+    def test_product_detail_shows_english_color_labels(self):
+        self.product.colors = ['Beyaz', 'Siyah']
+        self.product.colors_en = ['White', 'Black']
+        self.product.save(update_fields=('colors', 'colors_en'))
+
+        with override('en'):
+            response = self.client.get(reverse('catalog:product-detail', args=[self.product.slug]))
+
+        self.assertContains(response, 'White')
+        self.assertContains(response, 'Black')
+        self.assertContains(response, 'value="Beyaz"')

@@ -36,6 +36,27 @@ class CartTests(TestCase):
         self.assertEqual(CartItem.objects.filter(product=self.product).count(), 1)
         self.assertEqual(CartItem.objects.get(product=self.product).quantity, 2)
 
+    def test_cart_quantity_can_be_updated(self):
+        self.client.login(username='testuser', password='pass1234')
+        self.client.get(reverse('cart:add-to-cart', args=[self.product.pk]))
+        item = CartItem.objects.get(product=self.product)
+
+        response = self.client.post(reverse('cart:update-cart-item', args=[item.pk]), {'quantity': 4})
+
+        self.assertEqual(response.status_code, 302)
+        item.refresh_from_db()
+        self.assertEqual(item.quantity, 4)
+
+    def test_cart_quantity_rejects_non_positive_values(self):
+        self.client.login(username='testuser', password='pass1234')
+        self.client.get(reverse('cart:add-to-cart', args=[self.product.pk]))
+        item = CartItem.objects.get(product=self.product)
+
+        self.client.post(reverse('cart:update-cart-item', args=[item.pk]), {'quantity': 0})
+
+        item.refresh_from_db()
+        self.assertEqual(item.quantity, 1)
+
     def test_add_to_cart_and_checkout_as_logged_in_user(self):
         self.client.login(username='testuser', password='pass1234')
         response = self.client.get(reverse('cart:add-to-cart', args=[self.product.pk]))

@@ -52,6 +52,7 @@ class Command(BaseCommand):
                 'price': '129.99',
                 'sizes': ['S', 'M', 'L'],
                 'colors': ['Bej', 'Beyaz'],
+                'colors_en': ['Beige', 'White'],
                 'is_featured': True,
             },
             {
@@ -64,6 +65,7 @@ class Command(BaseCommand):
                 'price': '89.50',
                 'sizes': [],
                 'colors': ['Bej', 'Kahverengi'],
+                'colors_en': ['Beige', 'Brown'],
             },
             {
                 'name_tr': 'İpek Fular',
@@ -75,6 +77,7 @@ class Command(BaseCommand):
                 'price': '49.00',
                 'sizes': [],
                 'colors': ['Mavi', 'Pembe'],
+                'colors_en': ['Blue', 'Pink'],
             },
         ]
 

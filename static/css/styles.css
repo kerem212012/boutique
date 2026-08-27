@@ -749,6 +749,35 @@ header {
   font-size: 0.82rem;
 }
 
+.cart-quantity-form {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cart-quantity-form input {
+  width: 72px;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  text-align: center;
+}
+
+.cart-quantity-form input:focus {
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
+.cart-quantity-form .button {
+  min-height: 40px;
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+
 .product-detail-page {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);

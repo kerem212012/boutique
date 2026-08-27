@@ -56,6 +56,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', blank=True, null=True)
     sizes = models.JSONField(default=list, blank=True)
     colors = models.JSONField(default=list, blank=True)
+    colors_en = models.JSONField(default=list, blank=True)
     is_featured = models.BooleanField(default=False)
     is_new = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -81,6 +82,13 @@ class Product(models.Model):
     @description.setter
     def description(self, value):
         self.description_tr = value
+
+    @property
+    def color_options(self):
+        english = get_language() and get_language().startswith('en')
+        labels = self.colors_en if english and self.colors_en else self.colors
+        labels = labels + self.colors[len(labels):]
+        return list(zip(self.colors, labels))
 
     def save(self, *args, **kwargs):
         if not self.slug:

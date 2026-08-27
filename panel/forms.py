@@ -59,6 +59,12 @@ class ProductForm(forms.ModelForm):
         help_text='Virgülle ayırın: Beyaz, Siyah',
         widget=forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Beyaz, Siyah'}),
     )
+    colors_en_text = forms.CharField(
+        required=False,
+        label='Renkler (İngilizce)',
+        help_text='Separate with commas: White, Black',
+        widget=forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'White, Black'}),
+    )
 
     class Meta:
         model = Product
@@ -79,6 +85,7 @@ class ProductForm(forms.ModelForm):
         if self.instance and self.instance.pk:
             self.fields['sizes_text'].initial = ', '.join(self.instance.sizes or [])
             self.fields['colors_text'].initial = ', '.join(self.instance.colors or [])
+            self.fields['colors_en_text'].initial = ', '.join(self.instance.colors_en or [])
 
     def save(self, commit=True):
         product = super().save(commit=False)
@@ -87,6 +94,9 @@ class ProductForm(forms.ModelForm):
         ]
         product.colors = [
             c.strip() for c in self.cleaned_data.get('colors_text', '').split(',') if c.strip()
+        ]
+        product.colors_en = [
+            c.strip() for c in self.cleaned_data.get('colors_en_text', '').split(',') if c.strip()
         ]
         if commit:
             product.save()

@@ -47,6 +47,7 @@ entries = {
     'Shopping Cart': 'Sepetim',
     'Product': 'Ürün',
     'Quantity': 'Miktar',
+    'Update': 'Güncelle',
     'Price': 'Fiyat',
     'Total': 'Toplam',
     'Remove': 'Kaldır',

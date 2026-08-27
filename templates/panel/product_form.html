@@ -85,6 +85,11 @@
                 <span class="panel-form-help">Virgülle ayırın: Beyaz, Siyah</span>
             </div>
             <div class="panel-form-group">
+                <label for="{{ form.colors_en_text.id_for_label }}">Renkler (İngilizce)</label>
+                {{ form.colors_en_text }}
+                <span class="panel-form-help">Separate with commas: White, Black</span>
+            </div>
+            <div class="panel-form-group">
                 <label for="{{ form.slug.id_for_label }}">URL Adı (Slug)</label>
                 {{ form.slug }}
                 <span class="panel-form-help">Boş bırakın — otomatik oluşturulur</span>

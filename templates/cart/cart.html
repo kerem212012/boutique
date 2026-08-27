@@ -25,7 +25,13 @@
                             {% if item.selected_size %}<small>{% trans "Size" %}: {{ item.selected_size }}</small>{% endif %}
                             {% if item.selected_color %}<small>{% trans "Color" %}: {{ item.selected_color }}</small>{% endif %}
                         </td>
-                        <td data-label="{% trans 'Quantity' %}">{{ item.quantity }}</td>
+                        <td data-label="{% trans 'Quantity' %}">
+                            <form method="post" action="{% url 'cart:update-cart-item' item.id %}" class="cart-quantity-form">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" step="1" aria-label="{% trans 'Quantity' %}">
+                                <button type="submit" class="button button-secondary">{% trans "Update" %}</button>
+                            </form>
+                        </td>
                         <td data-label="{% trans 'Price' %}">{{ item.product.price }} ₺</td>
                         <td data-label="{% trans 'Total' %}">{{ item.quantity }} × {{ item.product.price }} ₺</td>
                         <td data-label="{% trans 'Action' %}"><a class="button button-secondary" href="{% url 'cart:remove-from-cart' item.id %}">{% trans "Remove" %}</a></td>
