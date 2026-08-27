@@ -30,7 +30,14 @@ class HomePageTests(TestCase):
         self.assertContains(response, 'Yeni Ürünler')
 
     def test_legal_pages_are_public(self):
-        for page_name in ('privacy-policy', 'terms', 'cookie-policy'):
+        for page_name in (
+            'privacy-policy',
+            'terms',
+            'cookie-policy',
+            'preliminary-information',
+            'distance-sales-agreement',
+            'returns-and-delivery',
+        ):
             with self.subTest(page_name=page_name):
                 response = self.client.get(reverse(page_name))
                 self.assertEqual(response.status_code, 200)

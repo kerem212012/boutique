@@ -19,5 +19,8 @@ def legal_page(request, page):
         'privacy': 'core/privacy_policy.html',
         'terms': 'core/terms.html',
         'cookies': 'core/cookie_policy.html',
+        'preliminary': 'core/preliminary_information.html',
+        'distance-sales': 'core/distance_sales_agreement.html',
+        'returns-delivery': 'core/returns_delivery.html',
     }
     return render(request, pages[page])

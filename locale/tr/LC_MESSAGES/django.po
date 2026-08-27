@@ -208,7 +208,7 @@ msgid "Home"
 msgstr "Ana Sayfa"
 
 msgid "Categories"
-msgstr ""
+msgstr "Kategoriler"
 
 msgid "View All"
 msgstr "Tümünü Gör"

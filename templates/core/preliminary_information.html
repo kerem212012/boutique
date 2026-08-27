@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% if LANGUAGE_CODE == 'en' %}Preliminary Information Form{% else %}Ön Bilgilendirme Formu{% endif %} | {{ site_settings.site_name|default:'Kalkan Nilüfer Butik' }}{% endblock %}
+
+{% block content %}
+<article class="legal-page">
+    <h1>{% if LANGUAGE_CODE == 'en' %}Preliminary Information Form{% else %}Ön Bilgilendirme Formu{% endif %}</h1>
+    <p class="legal-updated">{% if LANGUAGE_CODE == 'en' %}Last updated: 27 August 2026{% else %}Son güncelleme: 27 Ağustos 2026{% endif %}</p>
+    {% if LANGUAGE_CODE == 'en' %}
+        <p>This form provides the information required before you place an online order.</p>
+        <h2>Seller</h2><p>Kalkan Nilüfer Butik<br>Address: Kalkan, Antalya<br>Phone: +905413784734<br>Email: {{ site_settings.email|default:'hello@butikmail.local' }}</p>
+        <h2>Product, price and payment</h2><p>The product, quantity, applicable taxes and total price are shown in your cart and checkout summary before the order is submitted. Orders currently use bank transfer instructions displayed at checkout.</p>
+        <h2>Delivery</h2><p>Your order is delivered to the address entered at checkout. Estimated delivery information and any applicable delivery charges are shown before you submit the order.</p>
+        <h2>Cancellation and withdrawal</h2><p>You may exercise your statutory 14-day withdrawal right from delivery, subject to legal exceptions. See our Returns & Delivery page and the Distance Sales Agreement for details.</p>
+        <h2>Complaints</h2><p>Please contact us using the details above. Consumer rights under applicable law remain unaffected.</p>
+    {% else %}
+        <p>Bu form, internet üzerinden sipariş vermeden önce tüketiciye sunulması gereken temel bilgileri içerir.</p>
+        <h2>Satıcı bilgileri</h2><p>Kalkan Nilüfer Butik<br>Adres: Kalkan, Antalya<br>Telefon: +905413784734<br>E-posta: {{ site_settings.email|default:'hello@butikmail.local' }}</p>
+        <h2>Ürün, fiyat ve ödeme</h2><p>Ürünün adı, adedi, vergiler dahil fiyatı ve ödenecek toplam tutar sipariş gönderilmeden önce sepet ve ödeme özetinde gösterilir. Ödeme yöntemi olarak şu anda ödeme adımında belirtilen banka havalesi kullanılır.</p>
+        <h2>Teslimat</h2><p>Sipariş, ödeme adımında belirttiğiniz adrese gönderilir. Tahmini teslimat bilgisi ve varsa teslimat ücreti sipariş gönderilmeden önce gösterilir.</p>
+        <h2>İptal ve cayma</h2><p>Yasal istisnalar saklı kalmak üzere tüketici, teslimden itibaren 14 gün içinde cayma hakkını kullanabilir. Ayrıntılar için İade ve Teslimat sayfamızı ve Mesafeli Satış Sözleşmesi'ni inceleyiniz.</p>
+        <h2>Şikâyet ve başvurular</h2><p>Sorularınız ve talepleriniz için yukarıdaki iletişim bilgilerini kullanabilirsiniz. Kanundan doğan tüketici haklarınız saklıdır.</p>
+    {% endif %}
+</article>
+{% endblock %}

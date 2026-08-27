@@ -13,6 +13,7 @@ entries = {
     'Profile': 'Profil',
     'Logout': 'Çıkış Yap',
     'Home': 'Ana Sayfa',
+    'Categories': 'Kategoriler',
     'New Arrivals': 'Yeni Ürünler',
     'Completely new, with a weightless feel.': 'Yepyeni, hafif ve ağırlıksız bir his.',
     'Try Now': 'Şimdi Dene',

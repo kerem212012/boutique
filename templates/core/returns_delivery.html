@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% if LANGUAGE_CODE == 'en' %}Returns & Delivery{% else %}İade ve Teslimat{% endif %} | {{ site_settings.site_name|default:'Kalkan Nilüfer Butik' }}{% endblock %}
+
+{% block content %}
+<article class="legal-page">
+    <h1>{% if LANGUAGE_CODE == 'en' %}Returns & Delivery{% else %}İade ve Teslimat{% endif %}</h1>
+    <p class="legal-updated">{% if LANGUAGE_CODE == 'en' %}Last updated: 27 August 2026{% else %}Son güncelleme: 27 Ağustos 2026{% endif %}</p>
+    {% if LANGUAGE_CODE == 'en' %}
+        <h2>Delivery</h2><p>Orders are sent to the delivery address entered at checkout. Delivery timing and any charge are shown before you place the order. Please check the package when it arrives and contact us promptly about visible damage.</p>
+        <h2>Right of withdrawal</h2><p>You may withdraw from the purchase within 14 days of delivery, unless a statutory exception applies. To start a return, contact us at +905413784734 or {{ site_settings.email|default:'hello@butikmail.local' }} with your order details.</p>
+        <h2>Return conditions</h2><p>Return the product unused, undamaged, with tags and original packaging where applicable. We will provide return instructions after receiving your request. This policy does not limit mandatory rights for defective products.</p>
+        <h2>Refunds</h2><p>After the returned product is received and checked, eligible refunds are made using the original payment method within the period required by applicable law. Return shipping treatment is determined under the applicable consumer rules.</p>
+        <h2>Contact</h2><p>Kalkan Nilüfer Butik<br>Phone: +905413784734<br>Email: {{ site_settings.email|default:'hello@butikmail.local' }}</p>
+    {% else %}
+        <h2>Teslimat</h2><p>Siparişler ödeme sırasında bildirilen teslimat adresine gönderilir. Tahmini teslimat süresi ve varsa ücret sipariş öncesinde gösterilir. Paket teslim alındığında görünür hasarı kontrol ediniz ve hasar varsa gecikmeden bize bildiriniz.</p>
+        <h2>Cayma hakkı</h2><p>Yasal istisnalar saklı kalmak üzere tüketici, teslimden itibaren 14 gün içinde cayma hakkını kullanabilir. İade başlatmak için sipariş bilgilerinizi +905413784734 numarasına veya {{ site_settings.email|default:'hello@butikmail.local' }} adresine iletiniz.</p>
+        <h2>İade koşulları</h2><p>Ürün kullanılmamış, hasarsız, etiketleri takılı ve mümkünse orijinal ambalajıyla gönderilmelidir. Talebiniz alındıktan sonra iade gönderim bilgileri paylaşılır. Ayıplı ürünlere ilişkin zorunlu yasal haklarınız saklıdır.</p>
+        <h2>Ücret iadesi</h2><p>İade edilen ürün teslim alınıp kontrol edildikten sonra, uygun iadelerin bedeli yürürlükteki yasal süre içinde ilk ödeme yöntemiyle iade edilir. İade kargo bedeli yürürlükteki tüketici mevzuatına göre değerlendirilir.</p>
+        <h2>İletişim</h2><p>Kalkan Nilüfer Butik<br>Telefon: +905413784734<br>E-posta: {{ site_settings.email|default:'hello@butikmail.local' }}</p>
+    {% endif %}
+</article>
+{% endblock %}
