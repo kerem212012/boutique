@@ -7,6 +7,8 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils.translation import activate
 
+from .forms import RegistrationForm, UserProfileForm
+from orders.models import Order
 from users.models import UserProfile
 
 User = get_user_model()
@@ -46,12 +48,46 @@ class UserProfileTests(TestCase):
         response = self.client.get(reverse('users:profile'))
         self.assertContains(response, 'Profile')
 
+    def test_profile_page_language_tr_translates_order_status(self):
+        activate('tr')
+        self.client.login(username='profileuser', password='pass1234')
+        Order.objects.create(user=self.profile, status='paid', total='100.00')
+
+        response = self.client.get(reverse('users:profile'))
+
+        self.assertContains(response, 'Ödendi')
+
     def test_logout_ends_authenticated_session(self):
         self.client.login(username='profileuser', password='pass1234')
         response = self.client.post(reverse('users:logout'))
 
         self.assertRedirects(response, reverse('home'))
         self.assertNotIn('_auth_user_id', self.client.session)
+
+    def test_profile_post_updates_phone_and_address(self):
+        self.client.force_login(self.user)
+
+        response = self.client.post(reverse('users:profile'), {
+            'phone': '+90 555 000 00 00', 'address': 'New address',
+        })
+
+        self.assertRedirects(response, reverse('users:profile'))
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.phone, '+90 555 000 00 00')
+        self.assertEqual(self.profile.address, 'New address')
+
+    def test_invalid_profile_post_does_not_change_profile(self):
+        self.profile.phone = 'old phone'
+        self.profile.save(update_fields=('phone',))
+        self.client.force_login(self.user)
+
+        response = self.client.post(reverse('users:profile'), {
+            'phone': 'x' * 21, 'address': 'New address',
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.phone, 'old phone')
 
 
 @override_settings(
@@ -171,3 +207,26 @@ class PasswordResetTests(TestCase):
 
         self.assertRedirects(response, reverse('users:password_reset_done'))
         self.assertEqual(mail.outbox, [])
+
+
+class UserFormTests(TestCase):
+    def test_registration_form_normalizes_email_and_rejects_duplicates(self):
+        form = RegistrationForm(data={
+            'username': 'newuser', 'email': ' NewUser@Example.COM ',
+            'password1': 'StrongPass742!', 'password2': 'StrongPass742!',
+        })
+
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data['email'], 'newuser@example.com')
+
+        User.objects.create_user(username='existing', email='used@example.com')
+        duplicate = RegistrationForm(data={
+            'username': 'another', 'email': 'USED@example.com',
+            'password1': 'StrongPass742!', 'password2': 'StrongPass742!',
+        })
+        self.assertFalse(duplicate.is_valid())
+
+    def test_user_profile_form_accepts_valid_profile_data(self):
+        form = UserProfileForm(data={'phone': '+90 555 123 45 67', 'address': 'Antalya'})
+
+        self.assertTrue(form.is_valid())

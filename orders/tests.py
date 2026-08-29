@@ -21,7 +21,11 @@ class OrdersTests(TestCase):
             category=self.category,
             price='49.99',
         )
-        self.order = Order.objects.create(user=self.profile, total='49.99')
+        self.order = Order.objects.create(
+            user=self.profile,
+            total='49.99',
+            delivery_address='123 Main St, Antalya, Türkiye',
+        )
         OrderItem.objects.create(order=self.order, product=self.product, quantity=1, price='49.99')
 
     def test_orders_page_requires_login(self):
@@ -35,6 +39,35 @@ class OrdersTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.product.name)
         self.assertContains(response, '49,99')
+        self.assertContains(response, '123 Main St, Antalya, Türkiye')
+
+    def test_orders_page_hides_other_users_orders(self):
+        other_user = User.objects.create_user(username='other-order-user', password='pass1234')
+        other_profile = UserProfile.objects.get(user=other_user)
+        other_order = Order.objects.create(user=other_profile, total='25.00')
+        OrderItem.objects.create(order=other_order, product=self.product, quantity=1, price='25.00')
+        self.client.login(username='orderuser', password='pass1234')
+
+        response = self.client.get(reverse('orders:order-list'))
+
+        self.assertContains(response, '49,99')
+        self.assertNotContains(response, '25,00')
+
+    def test_shipping_address_uses_empty_value_without_profile(self):
+        order = Order.objects.create(user=None, total='1.00')
+
+        self.assertEqual(order.shipping_address, '')
+
+    def test_orders_page_falls_back_to_profile_address_for_old_orders(self):
+        self.order.delivery_address = ''
+        self.order.save(update_fields=('delivery_address',))
+        self.profile.address = 'Old profile address, Antalya'
+        self.profile.save(update_fields=('address',))
+        self.client.login(username='orderuser', password='pass1234')
+
+        response = self.client.get(reverse('orders:order-list'))
+
+        self.assertContains(response, 'Old profile address, Antalya')
 
     def test_orders_page_language_tr(self):
         activate('tr')

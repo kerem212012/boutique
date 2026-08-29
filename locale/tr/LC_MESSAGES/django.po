@@ -189,6 +189,12 @@ msgstr "Siparişleri Görüntüle"
 msgid "New"
 msgstr "Yeni"
 
+msgid "Paid"
+msgstr "Ödendi"
+
+msgid "Shipped"
+msgstr "Kargoya verildi"
+
 msgid "Details will be added soon."
 msgstr "Detay yakında eklenecek."
 

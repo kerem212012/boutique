@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from catalog.models import Product
 from users.models import UserProfile
@@ -6,14 +7,19 @@ from users.models import UserProfile
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('new', 'New'),
-        ('paid', 'Paid'),
-        ('shipped', 'Shipped'),
+        ('new', _('New')),
+        ('paid', _('Paid')),
+        ('shipped', _('Shipped')),
     ]
     user = models.ForeignKey(UserProfile, related_name='orders', on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new')
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    delivery_address = models.TextField(blank=True)
+
+    @property
+    def shipping_address(self):
+        return self.delivery_address or (self.user.address if self.user else '')
 
     def __str__(self):
         return f'Order #{self.pk}'

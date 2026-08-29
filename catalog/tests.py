@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.utils.translation import activate, override
+from decimal import Decimal
 
 from cart.models import CartItem
 
@@ -98,3 +99,55 @@ class CatalogPageTests(TestCase):
         self.assertContains(response, 'White')
         self.assertContains(response, 'Black')
         self.assertContains(response, 'value="Beyaz"')
+
+
+class CatalogModelTests(TestCase):
+    def test_category_and_product_fallback_to_turkish_text(self):
+        category = Category.objects.create(
+            name_tr='Keten', name_en='Linen', slug='keten',
+            description_tr='Türkçe açıklama', description_en='',
+        )
+        product = Product.objects.create(
+            name_tr='Gömlek', name_en='', slug='gomlek', category=category,
+            description_tr='Ürün açıklaması', description_en='', price='10.00',
+        )
+
+        with override('en'):
+            self.assertEqual(category.name, 'Linen')
+            self.assertEqual(category.description, 'Türkçe açıklama')
+            self.assertEqual(product.name, 'Gömlek')
+            self.assertEqual(product.description, 'Ürün açıklaması')
+
+    def test_color_options_keep_turkish_values_and_use_english_labels(self):
+        category = Category.objects.create(name_tr='Kategori', slug='kategori')
+        product = Product.objects.create(
+            name_tr='Ürün', slug='urun', category=category, price='10.00',
+            colors=['Beyaz', 'Siyah'], colors_en=['White'],
+        )
+
+        with override('en'):
+            self.assertEqual(product.color_options, [('Beyaz', 'White'), ('Siyah', 'Siyah')])
+
+        with override('tr'):
+            self.assertEqual(product.color_options, [('Beyaz', 'Beyaz'), ('Siyah', 'Siyah')])
+
+    def test_slug_is_generated_when_omitted(self):
+        category = Category.objects.create(name_tr='Yeni Kategori', slug='')
+        product = Product.objects.create(
+            name_tr='Yaz Elbisesi', slug='', category=category, price='20.00',
+        )
+
+        self.assertEqual(category.slug, 'yeni-kategori')
+        self.assertEqual(product.slug, 'yaz-elbisesi')
+
+
+class SeedProductsCommandTests(TestCase):
+    def test_seed_command_is_idempotent(self):
+        from django.core.management import call_command
+
+        call_command('seed_products')
+        call_command('seed_products')
+
+        self.assertEqual(Category.objects.count(), 3)
+        self.assertEqual(Product.objects.count(), 3)
+        self.assertEqual(Product.objects.get(slug='linen-summer-dress').price, Decimal('129.99'))

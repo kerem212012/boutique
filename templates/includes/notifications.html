@@ -1,0 +1,9 @@
+{% if messages %}
+    <div class="show notification" aria-live="polite">
+        {% for message in messages %}
+            <div class="notification-item {{ message.tags }}" role="{% if 'error' in message.tags %}alert{% else %}status{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}

@@ -57,6 +57,46 @@ class CartTests(TestCase):
         item.refresh_from_db()
         self.assertEqual(item.quantity, 1)
 
+    def test_different_variants_create_separate_cart_items(self):
+        self.product.sizes = ['S', 'M']
+        self.product.colors = ['Black', 'White']
+        self.product.save(update_fields=('sizes', 'colors'))
+        self.client.login(username='testuser', password='pass1234')
+
+        self.client.post(reverse('cart:add-to-cart', args=[self.product.pk]), {
+            'size': 'S', 'color': 'Black',
+        })
+        self.client.post(reverse('cart:add-to-cart', args=[self.product.pk]), {
+            'size': 'M', 'color': 'White',
+        })
+
+        items = CartItem.objects.filter(product=self.product).order_by('selected_size')
+        self.assertEqual(items.count(), 2)
+        self.assertEqual({item.selected_size for item in items}, {'S', 'M'})
+
+    def test_invalid_variant_does_not_add_item(self):
+        self.product.sizes = ['S']
+        self.product.save(update_fields=('sizes',))
+        self.client.login(username='testuser', password='pass1234')
+
+        response = self.client.post(reverse('cart:add-to-cart', args=[self.product.pk]), {'size': 'XL'})
+
+        self.assertRedirects(response, reverse('catalog:product-detail', args=[self.product.slug]))
+        self.assertFalse(CartItem.objects.filter(product=self.product).exists())
+
+    def test_user_cannot_remove_another_users_item(self):
+        other_user = User.objects.create_user(username='other', password='pass1234')
+        self.client.login(username='testuser', password='pass1234')
+        self.client.get(reverse('cart:add-to-cart', args=[self.product.pk]))
+        item = CartItem.objects.get(product=self.product)
+        self.client.logout()
+        self.client.login(username='other', password='pass1234')
+
+        response = self.client.post(reverse('cart:remove-from-cart', args=[item.pk]))
+
+        self.assertEqual(response.status_code, 404)
+        self.assertTrue(CartItem.objects.filter(pk=item.pk).exists())
+
     def test_add_to_cart_and_checkout_as_logged_in_user(self):
         self.client.login(username='testuser', password='pass1234')
         response = self.client.get(reverse('cart:add-to-cart', args=[self.product.pk]))

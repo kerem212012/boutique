@@ -12,6 +12,18 @@ class SiteSettingsForm(forms.ModelForm):
             'about_text', 'about_text_en', 'hero_image',
             'new_arrivals_image', 'bottom_image',
         )
+        labels = {
+            'site_name': 'Site adı',
+            'tagline': 'Slogan (TR)',
+            'tagline_en': 'Slogan (EN)',
+            'email': 'E-posta',
+            'location': 'Konum',
+            'about_text': 'Hakkımızda (TR)',
+            'about_text_en': 'Hakkımızda (EN)',
+            'hero_image': 'Ana sayfa görseli',
+            'new_arrivals_image': 'Yeni gelenler görseli',
+            'bottom_image': 'Alt görsel',
+        }
         widgets = {
             'about_text': forms.Textarea(attrs={'rows': 4}),
             'about_text_en': forms.Textarea(attrs={'rows': 4}),

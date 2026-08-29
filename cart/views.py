@@ -125,7 +125,11 @@ def checkout_view(request):
             profile.address = address
         profile.phone = phone
         profile.save()
-        order = Order.objects.create(user=profile, status='new')
+        order = Order.objects.create(
+            user=profile,
+            status='new',
+            delivery_address=address,
+        )
         for item in items:
             OrderItem.objects.create(
                 order=order,

@@ -27,6 +27,12 @@
                         <span>{% trans "Placed" %}: {{ order.created_at|date:'SHORT_DATE_FORMAT' }}</span>
                         <span>{% trans "Items" %}: {{ order.items.count }}</span>
                     </div>
+                    {% if order.shipping_address %}
+                        <div class="order-address">
+                            <span class="order-address-label">{% trans "Shipping Address" %}</span>
+                            <address>{{ order.shipping_address }}</address>
+                        </div>
+                    {% endif %}
                     <ul class="order-items">
                         {% for item in order.items.all %}
                             <li>

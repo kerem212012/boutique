@@ -69,14 +69,8 @@
         </div>
     </header>
     <div class="header-banner{% if site_settings.hero_image %} has-image{% endif %}"{% if site_settings.hero_image %} style="--hero-image:url('{{ site_settings.hero_image.url }}')"{% endif %} role="img" aria-label="Boutique lifestyle banner"></div>
+    {% include 'includes/notifications.html' %}
     <main class="container">
-        {% if messages %}
-            <div class="messages-container">
-                {% for message in messages %}
-                    <div class="message {{ message.tags }}">{{ message }}</div>
-                {% endfor %}
-            </div>
-        {% endif %}
         {% block content %}{% endblock %}
     </main>
     <footer>

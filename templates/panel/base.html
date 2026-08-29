@@ -238,37 +238,6 @@
             margin-bottom: 2px;
         }
 
-        /* Messages */
-        .panel-messages {
-            margin-bottom: 20px;
-        }
-
-        .panel-msg {
-            padding: 13px 18px;
-            border-radius: 14px;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            border: 1px solid transparent;
-        }
-
-        .panel-msg.success {
-            background: #f0faf3;
-            color: #1a6632;
-            border-color: rgba(26,102,50,.15);
-        }
-
-        .panel-msg.error {
-            background: #fdf2f3;
-            color: #a33a46;
-            border-color: rgba(163,58,70,.15);
-        }
-
-        .panel-msg.warning {
-            background: #fffbf0;
-            color: #7a5f00;
-            border-color: rgba(122,95,0,.15);
-        }
-
         /* Cards (panel-specific overrides) */
         .panel-card {
             background: var(--surface);
@@ -653,14 +622,6 @@
     </div>
 
     <div class="panel-content">
-        {% if messages %}
-            <div class="panel-messages">
-                {% for message in messages %}
-                    <div class="panel-msg {{ message.tags }}">{{ message }}</div>
-                {% endfor %}
-            </div>
-        {% endif %}
-
         {% block content %}{% endblock %}
     </div>
 </div>
