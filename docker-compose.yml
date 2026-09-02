@@ -25,7 +25,10 @@ services:
 
   web:
     build: .
-    command: sh -c "python manage.py migrate && gunicorn boutique.wsgi:application --bind 0.0.0.0:8000"
+    command: >-
+      sh -c "python manage.py migrate &&
+      python manage.py collectstatic --noinput &&
+      gunicorn boutique.wsgi:application --bind 0.0.0.0:8000"
     restart: unless-stopped
     env_file:
       - .env
@@ -37,7 +40,7 @@ services:
       redis:
         condition: service_healthy
     ports:
-      - "8000:8000"
+      - "${WEB_PORT:-8000}:8000"
     volumes:
       - ./media:/app/media
       - ./staticfiles:/app/staticfiles

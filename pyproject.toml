@@ -16,6 +16,7 @@ dependencies = [
     "polib>=1.2.0",
     "psycopg[binary]>=3.2",
     "pillow>=12.3.0",
+    "whitenoise>=6.11,<7.0",
 ]
 
 [project.scripts]

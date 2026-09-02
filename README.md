@@ -68,6 +68,44 @@ docker compose up --build
 
 The storefront is then available at `http://127.0.0.1:8000/`. Stop the services with `docker compose down`; use `docker compose down -v` only when the PostgreSQL data volume should also be removed.
 
+### Test on a remote server by IP
+
+Use one container engine consistently. The commands below use Docker Engine with
+the Compose plugin; Podman is not required for this setup.
+
+```bash
+git clone <repository-url> boutique
+cd boutique
+cp .env.example .env
+```
+
+Before starting, edit `.env`:
+
+- replace `YOUR_SERVER_IP` in `ALLOWED_HOSTS` with the server's public IP (do not
+  include `http://` or `:8000`);
+- generate a unique `SECRET_KEY` and database password;
+- put the same database password in `POSTGRES_PASSWORD` and `DATABASE_URL`;
+- set `DEBUG=False` so Compose uses PostgreSQL.
+- if another application already uses port `8000`, set (for example)
+  `WEB_PORT=8001` and use that port in the browser and firewall rule.
+
+Then run:
+
+```bash
+docker compose config
+docker compose up --build -d
+docker compose ps
+docker compose logs --tail=100 web
+curl -I http://127.0.0.1:8000/
+```
+
+Allow inbound TCP port `8000` in both the server firewall and the hosting
+provider's firewall/security group. Open `http://YOUR_SERVER_IP:8000/` in a
+browser. A redirect to `/tr/` is normal. If the local `curl` works but the
+browser does not connect, the problem is the firewall or provider network rule;
+if the log contains `Invalid HTTP_HOST header`, the IP is missing from
+`ALLOWED_HOSTS`.
+
 Useful local URLs:
 
 - `/tr/` — Turkish storefront
